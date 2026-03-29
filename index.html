@@ -898,7 +898,7 @@
             
             <div class="login-footer">
                 <p>🔒 Secure Medical System v2.0</p>
-                <p style="margin-top:4px; font-size:0.75rem; color:var(--gray-300);">Use: r3</p>
+                <p style="margin-top:4px; font-size:0.75rem; color:var(--gray-300);">Use: admin / password123</p>
             </div>
         </div>
     </div>
@@ -1730,6 +1730,7 @@
     function showSyncIndicator(type, text) {
         const indicator = document.getElementById('syncIndicator');
         const textEl = document.getElementById('syncText');
+        if (!indicator || !textEl) return;
         
         indicator.className = `sync-indicator show ${type}`;
         textEl.textContent = text;
@@ -1752,16 +1753,16 @@
     }
 
     function getPazienti() { return allData.pazienti || []; }
-    function setPazienti(p) { allData.pazienti = p; saveDataToJsonBin(); }
+    function setPazienti(p) { allData.pazienti = p; saveLocalCache(allData); saveDataToJsonBin(); }
 
     function getVisite() { return allData.visite || []; }
-    function setVisite(v) { allData.visite = v; saveDataToJsonBin(); }
+    function setVisite(v) { allData.visite = v; saveLocalCache(allData); saveDataToJsonBin(); }
 
     function getNascite() { return allData.nascite || []; }
-    function setNascite(n) { allData.nascite = n; saveDataToJsonBin(); }
+    function setNascite(n) { allData.nascite = n; saveLocalCache(allData); saveDataToJsonBin(); }
 
     function getDecessi() { return allData.decessi || []; }
-    function setDecessi(d) { allData.decessi = d; saveDataToJsonBin(); }
+    function setDecessi(d) { allData.decessi = d; saveLocalCache(allData); saveDataToJsonBin(); }
 
     function msg(text, type = 'success') {
         const box = document.createElement('div');
