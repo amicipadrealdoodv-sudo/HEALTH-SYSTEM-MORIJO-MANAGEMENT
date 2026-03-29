@@ -1608,15 +1608,16 @@
                 <span class="icon">📈</span>
                 <span>Stats</span>
             </button>
-
+        </div>
     </div>
 
 <script>
     // ===== JSONBIN.IO CONFIGURATION =====
-    const JSONBIN_BIN_ID = '69c8f0846860e0745bff6903';
+    const JSONBIN_BIN_ID   = '69c8f0846860e0745bff6903';
     const JSONBIN_MASTER_KEY = '$2a$10$Z2lQjwDW.9ncUrm8gnE75uG9HdkCoNVsgmitFJCo2/3MAvSoMl8Pu';
     const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3/b';
-    
+    const LS_DATA_KEY = 'morijo_data'; // local cache
+
     const VALID_USER = 'admin';
     const VALID_PWD = 'password123';
 
@@ -1632,29 +1633,46 @@
     let allData = { ...defaultData };
     let syncInterval = null;
 
+    // ---- Local cache helpers ----
+    function loadLocalCache() {
+        try {
+            const raw = localStorage.getItem(LS_DATA_KEY);
+            if (raw) return JSON.parse(raw);
+        } catch(e) {}
+        return null;
+    }
+    function saveLocalCache(data) {
+        try { localStorage.setItem(LS_DATA_KEY, JSON.stringify(data)); } catch(e) {}
+    }
+
     async function loadDataFromJsonBin(showIndicator = true) {
         if (showIndicator) showSyncIndicator('syncing', 'Syncing...');
-        
+
+        // Show local cache immediately while fetching online
+        const cached = loadLocalCache();
+        if (cached) { allData = cached; updateAllUI(); }
+
         try {
             const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
                 method: 'GET',
-                headers: { 
+                headers: {
                     'X-Master-Key': JSONBIN_MASTER_KEY,
                     'X-Bin-Meta': 'false'
                 }
             });
-            
+
             if (response.ok) {
                 const result = await response.json();
                 const newData = result.record || defaultData;
                 const hasChanges = JSON.stringify(newData) !== JSON.stringify(allData);
-                
+
                 if (hasChanges) {
                     allData = newData;
+                    saveLocalCache(allData);
                     updateAllUI();
-                    if (showIndicator) showSyncIndicator('synced', 'Updated!');
                 }
-                
+
+                if (showIndicator) showSyncIndicator('synced', 'Online!');
                 updateSyncStatus(true);
                 return true;
             }
@@ -1662,22 +1680,19 @@
             console.log('Sync error:', e);
             if (showIndicator) showSyncIndicator('error', 'Offline');
         }
-        
+
         updateSyncStatus(false);
         return false;
     }
 
     async function saveDataToJsonBin() {
         showSyncIndicator('syncing', 'Saving...');
-        
-        if (!JSONBIN_BIN_ID || JSONBIN_BIN_ID === 'YOUR_BIN_ID_HERE') {
-            showSyncIndicator('error', 'Not configured');
-            return false;
-        }
-        
+        allData.lastUpdate = new Date().toISOString();
+
+        // Always save locally first
+        saveLocalCache(allData);
+
         try {
-            allData.lastUpdate = new Date().toISOString();
-            
             const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
                 method: 'PUT',
                 headers: {
@@ -1686,7 +1701,7 @@
                 },
                 body: JSON.stringify(allData)
             });
-            
+
             if (response.ok) {
                 updateSyncStatus(true);
                 showSyncIndicator('synced', 'Saved!');
@@ -1694,9 +1709,9 @@
             }
         } catch (e) {
             console.log('Save error:', e);
-            showSyncIndicator('error', 'Save failed');
+            showSyncIndicator('error', 'Saved locally');
         }
-        
+
         updateSyncStatus(false);
         return false;
     }
@@ -1821,7 +1836,7 @@
                         <span class="badge badge-${colors[item.type]}">${labels[item.type]}</span>
                     </div>
                     <div class="list-meta" style="font-size:0.8rem;">
-                        US')}</div>
+                        ${subtitle || ''}</div>
                 </div>
                 <div style="font-size:0.75rem;color:var(--gray-400);">${item.location || 'Unknown location'}</div>
             </div>`;
