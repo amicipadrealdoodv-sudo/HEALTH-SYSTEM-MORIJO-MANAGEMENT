@@ -898,7 +898,7 @@
             
             <div class="login-footer">
                 <p>🔒 Secure Medical System v2.0</p>
-                <p style="margin-top:4px; font-size:0.75rem; color:var(--gray-300);">Use:nurse</p>
+                <p style="margin-top:4px; font-size:0.75rem; color:var(--gray-300);">Use:nurse and admin</p>
             </div>
         </div>
     </div>
@@ -1633,6 +1633,8 @@
     let currentUser = null;
     let allData = { ...defaultData };
     let syncInterval = null;
+    let isSaving = false;      // lock: don't overwrite while saving
+    let pendingSave = false;   // queue: save again after current save finishes
 
     // ---- Local cache helpers ----
     function loadLocalCache() {
@@ -1647,6 +1649,9 @@
     }
 
     async function loadDataFromJsonBin(showIndicator = true) {
+        // Never overwrite local data while a save is in progress
+        if (isSaving) return false;
+
         if (showIndicator) showSyncIndicator('syncing', 'Syncing...');
 
         // Show local cache immediately while fetching online
@@ -1664,20 +1669,17 @@
             });
 
             if (response.ok) {
+                if (isSaving) return false; // save started while waiting - abort
                 const result = await response.json();
-                // JSONBin v3: data is in result.record, but fallback to result itself
                 const newData = result.record || result || defaultData;
-                // Validate it has the right shape
                 if (!newData.pazienti) newData.pazienti = [];
                 if (!newData.visite)   newData.visite   = [];
                 if (!newData.nascite)  newData.nascite  = [];
                 if (!newData.decessi)  newData.decessi  = [];
                 console.log('[JSONBin] Loaded:', newData.pazienti.length, 'pazienti,', newData.visite.length, 'visite');
-                // Always update - don't rely on change detection
                 allData = newData;
                 saveLocalCache(allData);
                 updateAllUI();
-
                 if (showIndicator) showSyncIndicator('synced', 'Online!');
                 updateSyncStatus(true);
                 return true;
@@ -1692,14 +1694,24 @@
     }
 
     async function saveDataToJsonBin() {
+        // If already saving, queue another save for after
+        if (isSaving) {
+            pendingSave = true;
+            return false;
+        }
+
+        isSaving = true;
+        pendingSave = false;
         showSyncIndicator('syncing', 'Saving...');
         allData.lastUpdate = new Date().toISOString();
 
         // Always save locally first
         saveLocalCache(allData);
 
+        // Snapshot data to send (so concurrent changes don't corrupt it)
+        const dataToSend = JSON.parse(JSON.stringify(allData));
+
         try {
-            console.log('[JSONBin] Saving to bin:', JSONBIN_BIN_ID);
             const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
                 method: 'PUT',
                 headers: {
@@ -1707,26 +1719,26 @@
                     'X-Master-Key': JSONBIN_MASTER_KEY,
                     'X-Access-Key': JSONBIN_ACCESS_KEY
                 },
-                body: JSON.stringify(allData)
+                body: JSON.stringify(dataToSend)
             });
-
-            const responseText = await response.text();
-            console.log('[JSONBin] Save response status:', response.status);
-            console.log('[JSONBin] Save response body:', responseText);
 
             if (response.ok) {
                 updateSyncStatus(true);
                 showSyncIndicator('synced', 'Saved!');
+                isSaving = false;
+                if (pendingSave) saveDataToJsonBin(); // flush queued save
                 return true;
             } else {
-                console.error('[JSONBin] Save FAILED:', response.status, responseText);
+                const txt = await response.text();
+                console.error('[JSONBin] Save FAILED:', response.status, txt);
                 showSyncIndicator('error', 'Error ' + response.status);
             }
         } catch (e) {
-            console.error('[JSONBin] Save EXCEPTION:', e);
+            console.error('[JSONBin] Save error:', e);
             showSyncIndicator('error', 'Network error');
         }
 
+        isSaving = false;
         updateSyncStatus(false);
         return false;
     }
