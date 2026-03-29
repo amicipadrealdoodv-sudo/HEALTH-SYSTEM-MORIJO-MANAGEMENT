@@ -2,2727 +2,628 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Morijo Health - Medical Records System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIPPP – Online Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* NEW: White-First Medical Color Palette - Clinic Calm + Sterile Aqua */
-            
-            /* Primary: Clean Sky Blue to Navy */
-            --primary-50: #f6fbff;
-            --primary-100: #e6f4ff;
-            --primary-200: #d6ecff;
-            --primary-300: #8ec5ff;
-            --primary-400: #5eb1ff;
-            --primary-500: #3a9bd5;
-            --primary-600: #2a7bd5;
-            --primary-700: #1d5f9c;
-            --primary-800: #164c7a;
-            --primary-900: #0f3a5c;
-            
-            /* Secondary: Aqua/Teal Medical Accent */
-            --aqua-50: #f0fdff;
-            --aqua-100: #e0f7fa;
-            --aqua-200: #b2ebf2;
-            --aqua-300: #80deea;
-            --aqua-400: #4dd0e1;
-            --aqua-500: #26c6da;
-            --aqua-600: #00bcd4;
-            --aqua-700: #00acc1;
-            --aqua-800: #0097a7;
-            --aqua-900: #00838f;
-            
-            /* Semantic Status Colors */
-            --success: #10b981;
-            --success-light: #ecfdf5;
-            --success-dark: #047857;
-            --warning: #f59e0b;
-            --warning-light: #fffbeb;
-            --warning-dark: #b45309;
-            --danger: #ef4444;
-            --danger-light: #fef2f2;
-            --danger-dark: #b91c1c;
-            --info: #0ea5e9;
-            --info-light: #f0f9ff;
-            --info-dark: #0369a1;
-            
-            /* Neutral Grays - Cool Tones */
-            --gray-50: #f8fafc;
-            --gray-100: #f1f5f9;
-            --gray-200: #e2e8f0;
-            --gray-300: #cbd5e1;
-            --gray-400: #94a3b8;
-            --gray-500: #64748b;
-            --gray-600: #475569;
-            --gray-700: #334155;
-            --gray-800: #1e293b;
-            --gray-900: #0f172a;
-            
-            /* Pure Whites */
-            --white: #ffffff;
-            --white-soft: #fafbfc;
-            --white-muted: #f6f7f9;
-            
-            /* Layout */
-            --bg: var(--white);
-            --card: var(--white);
-            --text: var(--gray-900);
-            --text-secondary: var(--gray-600);
-            --border: var(--gray-200);
-            --border-light: var(--gray-100);
-            
-            /* Shadows - Softer for white bg */
-            --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
-            --shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px 0 rgba(15, 23, 42, 0.04);
-            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -1px rgba(15, 23, 42, 0.04);
-            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
-            --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
-            
-            /* Radius */
-            --radius: 12px;
-            --radius-sm: 8px;
-            --radius-xs: 6px;
-            --radius-full: 9999px;
-            
-            /* Safe areas */
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-        }
-        
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
-            background: var(--bg); 
-            min-height:100vh; 
-            color:var(--text); 
-            line-height:1.5;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        ::-webkit-scrollbar { width:4px; height:4px; }
-        ::-webkit-scrollbar-thumb { background:var(--primary-200); border-radius:4px; }
-        ::-webkit-scrollbar-track { background:transparent; }
-        
-        .hidden { display:none !important; }
-        
-        /* ========== LOGIN SCREEN - CLEAN WHITE MEDICAL ========== */
-        #login {
-            position:fixed; inset:0; z-index:1000;
-            background: var(--white);
-            display:flex; flex-direction:column; justify-content:center; align-items:center;
-            padding: 20px;
-        }
-        
-        /* Subtle medical cross pattern */
-        #login::before {
-            content:''; position:absolute; inset:0;
-            background-image: 
-                radial-gradient(circle at 25% 25%, var(--primary-100) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, var(--aqua-100) 0%, transparent 50%);
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        
-        .login-container {
-            position:relative; width:100%; max-width:400px;
-            animation: slideUp 0.5s ease;
-            z-index: 1;
-        }
-        
-        @keyframes slideUp {
-            from { opacity:0; transform:translateY(20px); }
-            to { opacity:1; transform:translateY(0); }
-        }
-        
-        .login-header {
-            text-align: center; margin-bottom: 32px;
-        }
-        
-        .login-logo {
-            width:80px; height:80px;
-            background: linear-gradient(135deg, var(--primary-500), var(--aqua-600));
-            border-radius:20px; margin:0 auto 20px;
-            display:flex; align-items:center; justify-content:center;
-            font-size:2.5rem; 
-            box-shadow:0 8px 20px -4px rgba(58, 155, 213, 0.3);
-            color:white;
-            border: 4px solid var(--white);
-            outline: 3px solid var(--primary-100);
-        }
-        
-        .login-header h1 {
-            color:var(--gray-900); font-size:1.75rem; font-weight:800;
-            margin-bottom:8px; letter-spacing:-0.025em;
-        }
-        
-        .login-header p {
-            color:var(--gray-500); font-size:1rem; 
-            font-weight: 500;
-        }
-        
-        .login-card {
-            background: var(--white);
-            padding: 32px; 
-            border-radius:var(--radius); 
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-        }
-        
-        .field {
-            position:relative; margin-bottom:16px;
-        }
-        
-        .field input {
-            width:100%; padding:14px 16px 14px 44px;
-            background: var(--gray-50); 
-            border: 2px solid var(--gray-200);
-            border-radius:var(--radius-sm); 
-            color:var(--gray-900);
-            font-size:1rem; font-family:inherit; outline:none;
-            transition:all 0.2s;
-        }
-        
-        .field input:focus {
-            border-color:var(--primary-500); 
-            background:var(--white);
-            box-shadow:0 0 0 3px var(--primary-100);
-        }
-        
-        .field input::placeholder { color:var(--gray-400); }
-        
-        .field-icon {
-            position:absolute; left:14px; top:50%;
-            transform:translateY(-50%); color:var(--gray-400);
-            font-size:1.1rem;
-        }
-        
-        .btn-primary {
-            width:100%; padding:14px;
-            background: var(--primary-600);
-            color:var(--white); border:none; border-radius:var(--radius-sm);
-            font-size:1rem; font-weight:700; cursor:pointer;
-            margin-top:8px; transition:all 0.2s;
-            box-shadow:0 4px 6px -1px rgba(42, 123, 213, 0.2);
-            display:flex; align-items:center; justify-content:center; gap:8px;
-        }
-        
-        .btn-primary:hover {
-            background: var(--primary-700);
-            transform:translateY(-1px);
-            box-shadow:0 6px 12px -2px rgba(42, 123, 213, 0.3);
-        }
-        
-        .btn-primary:active { transform:translateY(0); }
-        
-        .login-err {
-            color:var(--danger-dark); font-size:0.875rem; 
-            margin-top:12px; display:none; font-weight:600;
-            text-align:center; padding:12px;
-            background:var(--danger-light); 
-            border-radius:var(--radius-sm);
-            border: 1px solid rgba(239, 68, 68, 0.15);
-        }
-        
-        .login-err.show { display:block; animation: shake 0.4s ease; }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-4px); }
-            75% { transform: translateX(4px); }
-        }
-        
-        .login-footer {
-            text-align: center; margin-top: 24px;
-            color: var(--gray-400); font-size: 0.875rem;
-        }
-        
-        /* ========== HEADER - Clean White ========== */
-        header {
-            background:var(--white);
-            border-bottom:1px solid var(--border);
-            padding: var(--safe-top) 16px 0;
-            position:sticky; top:0; z-index:100;
-            box-shadow:var(--shadow-sm);
-        }
-        
-        .head-content {
-            max-width:1280px; margin:0 auto; height:56px;
-            display:flex; align-items:center; gap:12px;
-        }
-        
-        .head-logo {
-            font-size:1.1rem; font-weight:800;
-            color:var(--primary-700);
-            display:flex; align-items:center; gap:8px;
-            letter-spacing:-0.025em;
-        }
-        
-        .head-logo span {
-            background:var(--primary-100); color:var(--primary-700);
-            padding:4px 8px; border-radius:var(--radius-xs);
-            font-size:0.65rem; font-weight:800;
-            text-transform:uppercase; letter-spacing:0.05em;
-        }
-        
-        .head-spacer { flex:1; }
-        
-        .user-badge {
-            background:var(--primary-50); color:var(--primary-700);
-            padding:6px 12px; border-radius:var(--radius-full);
-            font-size:0.8rem; font-weight:600;
-            border:1px solid var(--primary-100);
-        }
-        
-        .sync-status {
-            font-size:0.75rem; color:var(--gray-400);
-            display:flex; align-items:center; gap:4px;
-        }
-        
-        .sync-status.synced { color:var(--success); }
-        .sync-status.synced::before {
-            content:''; width:6px; height:6px;
-            background:var(--success); border-radius:50%;
-            animation:pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity:1; }
-            50% { opacity:0.5; }
-        }
-        
-        .btn-exit {
-            padding:8px 14px; background:var(--white);
-            border:1.5px solid var(--gray-200);
-            color:var(--gray-600); border-radius:var(--radius-sm);
-            cursor:pointer; font-size:0.8rem; font-weight:600;
-            transition:all 0.2s;
-        }
-        
-        .btn-exit:hover {
-            border-color:var(--danger); color:var(--danger);
-            background:var(--danger-light);
-        }
-        
-        /* ========== NAVIGATION - Bottom Tabs ========== */
-        .nav-container {
-            position:fixed; bottom:0; left:0; right:0;
-            background:var(--white);
-            border-top:1px solid var(--border);
-            padding-bottom:var(--safe-bottom);
-            z-index:99;
-            box-shadow:0 -2px 10px rgba(15, 23, 42, 0.03);
-        }
-        
-        .nav-tabs {
-            display:flex; justify-content:space-around;
-            max-width:600px; margin:0 auto;
-        }
-        
-        .nav-tab {
-            flex:1; padding:10px 4px; border:none;
-            background:transparent; cursor:pointer;
-            font-weight:600; font-size:0.7rem;
-            color:var(--gray-400);
-            transition:all 0.2s;
-            display:flex; flex-direction:column;
-            align-items:center; gap:4px;
-            position:relative;
-        }
-        
-        .nav-tab .icon {
-            font-size:1.3rem; transition:transform 0.2s;
-        }
-        
-        .nav-tab:hover { color:var(--primary-500); }
-        .nav-tab:hover .icon { transform:translateY(-2px); }
-        
-        .nav-tab.active {
-            color:var(--primary-600);
-        }
-        
-        .nav-tab.active::before {
-            content:''; position:absolute; top:0; left:50%;
-            transform:translateX(-50%); width:32px; height:2px;
-            background:var(--primary-500); border-radius:0 0 2px 2px;
-        }
-        
-        /* ========== MAIN CONTENT ========== */
-        .main {
-            max-width:1280px; margin:0 auto;
-            padding:16px 16px 100px;
-            display:none;
-        }
-        
-        .main.active { display:block; animation:fadeIn 0.3s ease; }
-        
-        @keyframes fadeIn {
-            from { opacity:0; transform:translateY(10px); }
-            to { opacity:1; transform:translateY(0); }
-        }
-        
-        .section { display:none; }
-        .section.active { display:block; }
-        
-        /* ========== STATS GRID ========== */
-        .stats-grid {
-            display:grid; 
-            grid-template-columns:repeat(2, 1fr);
-            gap:12px; margin-bottom:20px;
-        }
-        
-        @media (min-width:768px) {
-            .stats-grid { grid-template-columns:repeat(4, 1fr); }
-        }
-        
-        .stat-card {
-            background:var(--white); padding:16px;
-            border-radius:var(--radius);
-            box-shadow:var(--shadow); 
-            border:1px solid var(--border);
-            display:flex; flex-direction:column;
-            gap:6px; position:relative; overflow:hidden;
-            transition:all 0.2s;
-        }
-        
-        .stat-card:hover {
-            border-color:var(--primary-200);
-            box-shadow:var(--shadow-md);
-        }
-        
-        .stat-card::before {
-            content:''; position:absolute; top:0; left:0; right:0; height:3px;
-            background:var(--primary-500);
-        }
-        
-        .stat-card.teal::before { background:var(--aqua-500); }
-        .stat-card.red::before { background:var(--danger); }
-        .stat-card.amber::before { background:var(--warning); }
-        .stat-card.green::before { background:var(--success); }
-        .stat-card.cyan::before { background:var(--info); }
-        
-        .stat-value {
-            font-size:1.75rem; font-weight:700;
-            color:var(--gray-900); letter-spacing:-0.025em;
-        }
-        
-        .stat-label {
-            font-size:0.7rem; color:var(--gray-500);
-            font-weight:600; text-transform:uppercase;
-            letter-spacing:0.05em;
-        }
-        
-        .stat-change {
-            font-size:0.75rem; color:var(--gray-400);
-        }
-        
-        /* ========== CARDS ========== */
-        .card {
-            background:var(--white); 
-            border-radius:var(--radius);
-            box-shadow:var(--shadow); 
-            border:1px solid var(--border);
-            margin-bottom:16px; overflow:hidden;
-        }
-        
-        .card-header {
-            padding:16px 20px; 
-            border-bottom:1px solid var(--border-light);
-            display:flex; align-items:center; gap:10px;
-            background:var(--gray-50);
-        }
-        
-        .card-header h3 {
-            font-size:1rem; font-weight:700; 
-            color:var(--gray-900);
-            display:flex; align-items:center; gap:8px;
-        }
-        
-        .card-body { padding:20px; }
-        
-        /* ========== FORMS ========== */
-        .form-group {
-            display:grid; gap:16px;
-        }
-        
-        @media (min-width:640px) {
-            .form-group { grid-template-columns:repeat(2, 1fr); }
-        }
-        
-        .form-field {
-            display:flex; flex-direction:column; gap:6px;
-        }
-        
-        .form-field.full-width { grid-column:1 / -1; }
-        
-        .form-field label {
-            font-size:0.75rem; font-weight:700;
-            color:var(--gray-700); text-transform:uppercase;
-            letter-spacing:0.05em;
-        }
-        
-        .form-field label .required {
-            color:var(--danger); font-size:0.9em;
-        }
-        
-        .form-field input, 
-        .form-field select, 
-        .form-field textarea {
-            padding:12px 14px; 
-            background:var(--white);
-            border:1.5px solid var(--gray-200); 
-            border-radius:var(--radius-sm);
-            font-family:inherit; color:var(--gray-900);
-            font-size:0.95rem; outline:none; 
-            transition:all 0.2s;
-            width:100%;
-        }
-        
-        .form-field select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat:no-repeat; 
-            background-position:right 10px center;
-            background-size:18px; 
-            padding-right:36px;
-            appearance:none;
-            -webkit-appearance:none;
-        }
-        
-        .form-field input:focus, 
-        .form-field select:focus, 
-        .form-field textarea:focus {
-            border-color:var(--primary-400);
-            box-shadow:0 0 0 3px var(--primary-100);
-        }
-        
-        .form-field textarea {
-            resize:vertical; min-height:90px;
-        }
-        
-        .form-actions {
-            display:flex; gap:12px; margin-top:4px;
-            flex-wrap:wrap;
-        }
-        
-        .btn {
-            padding:12px 20px; 
-            border:none; 
-            border-radius:var(--radius-sm);
-            font-weight:600; cursor:pointer; 
-            font-size:0.9rem;
-            transition:all 0.2s; 
-            display:inline-flex;
-            align-items:center; justify-content:center; gap:6px;
-        }
-        
-        .btn-success {
-            background: var(--success);
-            color:var(--white);
-        }
-        
-        .btn-success:hover {
-            background: var(--success-dark);
-            transform:translateY(-1px);
-        }
-        
-        .btn-danger {
-            background:var(--danger); 
-            color:var(--white);
-            padding:8px 14px; 
-            font-size:0.85rem;
-        }
-        
-        .btn-danger:hover { background:var(--danger-dark); }
-        
-        /* ========== LISTS ========== */
-        .list-container {
-            background:var(--white); 
-            border-radius:var(--radius);
-            box-shadow:var(--shadow); 
-            border:1px solid var(--border);
-            overflow:hidden;
-        }
-        
-        .list-item {
-            padding:16px; 
-            border-bottom:1px solid var(--border-light);
-            display:flex; flex-direction:column; gap:12px;
-            transition:background 0.15s;
-        }
-        
-        .list-item:last-child { border-bottom:none; }
-        .list-item:hover { background:var(--gray-50); }
-        
-        .list-item.red { border-left:3px solid var(--danger); }
-        .list-item.green { border-left:3px solid var(--success); }
-        .list-item.blue { border-left:3px solid var(--primary-500); }
-        .list-item.teal { border-left:3px solid var(--aqua-500); }
-        .list-item.cyan { border-left:3px solid var(--info); }
-        
-        .list-content { flex:1; }
-        
-        .list-title {
-            font-weight:700; 
-            color:var(--gray-900);
-            margin-bottom:4px; 
-            display:flex;
-            gap:8px; align-items:center; flex-wrap:wrap;
-            font-size:0.95rem;
-        }
-        
-        .list-meta {
-            font-size:0.85rem; 
-            color:var(--gray-500);
-            line-height:1.5;
-        }
-        
-        .list-actions {
-            display:flex; gap:8px; 
-            justify-content:flex-end;
-        }
-        
-        .badge {
-            display:inline-flex; align-items:center;
-            padding:3px 8px; 
-            border-radius:var(--radius-full);
-            font-size:0.7rem; 
-            font-weight:700;
-            text-transform:uppercase; 
-            letter-spacing:0.02em;
-        }
-        
-        .badge-primary { background:var(--primary-100); color:var(--primary-700); }
-        .badge-success { background:var(--success-light); color:var(--success-dark); }
-        .badge-danger { background:var(--danger-light); color:var(--danger-dark); }
-        .badge-warning { background:var(--warning-light); color:var(--warning-dark); }
-        .badge-teal { background:var(--aqua-100); color:var(--aqua-700); }
-        .badge-cyan { background:var(--info-light); color:var(--info-dark); }
-        
-        /* ========== LOCATION CARDS ========== */
-        .locations-grid {
-            display:grid;
-            grid-template-columns:repeat(2, 1fr);
-            gap:12px; margin-bottom:20px;
-        }
-        
-        @media (min-width:640px) {
-            .locations-grid { grid-template-columns:repeat(4, 1fr); }
-        }
-        
-        .location-card {
-            background:var(--white); 
-            padding:16px;
-            border-radius:var(--radius);
-            box-shadow:var(--shadow); 
-            border:1px solid var(--border);
-            text-align:center; 
-            transition:all 0.2s;
-        }
-        
-        .location-card:hover {
-            border-color:var(--primary-200);
-            box-shadow:var(--shadow-md);
-        }
-        
-        .location-name {
-            font-weight:700; 
-            font-size:1rem;
-            color:var(--primary-700); 
-            margin-bottom:4px;
-        }
-        
-        .location-stats {
-            font-size:0.75rem; 
-            color:var(--gray-500);
-        }
-        
-        /* ========== DISEASE SELECT ========== */
-        .disease-select {
-            font-size:0.9rem;
-            max-height:300px;
-        }
-        
-        .disease-select optgroup {
-            font-weight:700; 
-            color:var(--primary-700);
-            background:var(--primary-50);
-        }
-        
-        /* ========== EMPTY STATE ========== */
-        .empty {
-            padding:48px 20px; 
-            text-align:center;
-            color:var(--gray-500);
-        }
-        
-        .empty-icon {
-            font-size:3rem; 
-            margin-bottom:12px;
-            opacity:0.4;
-        }
-        
-        .empty h4 {
-            font-size:1rem; 
-            color:var(--gray-700);
-            margin-bottom:4px;
-            font-weight:600;
-        }
-        
-        .empty p {
-            font-size:0.875rem;
-            color:var(--gray-400);
-        }
-        
-        /* ========== MESSAGE ALERTS ========== */
-        .msg-box {
-            position:fixed; top:16px; left:50%;
-            transform:translateX(-50%) translateY(-100px);
-            z-index:1001; 
-            padding:12px 20px;
-            border-radius:var(--radius-sm);
-            color:var(--white); 
-            font-weight:600; 
-            font-size:0.9rem;
-            max-width:90%; 
-            width:fit-content;
-            box-shadow:var(--shadow-xl);
-            animation:slideDown 0.3s ease forwards;
-            display:flex; align-items:center; gap:8px;
-        }
-        
-        @keyframes slideDown {
-            to { transform:translateX(-50%) translateY(0); }
-        }
-        
-        .msg-box.success { background:var(--success); }
-        .msg-box.err { background:var(--danger); }
-        .msg-box.info { background:var(--info); }
-        
-        /* ========== SYNC INDICATOR ========== */
-        .sync-indicator {
-            position:fixed; top:70px; right:16px;
-            background:var(--white); 
-            padding:10px 14px;
-            border-radius:var(--radius-sm);
-            box-shadow:var(--shadow-lg);
-            border:1px solid var(--border);
-            display:none; align-items:center; gap:8px;
-            font-size:0.8rem; 
-            font-weight:600;
-            color:var(--gray-600); 
-            z-index:98;
-        }
-        
-        .sync-indicator.show { display:flex; }
-        
-        .sync-indicator.syncing { color:var(--primary-600); }
-        .sync-indicator.synced { color:var(--success); }
-        .sync-indicator.error { color:var(--danger); }
-        
-        .spinner {
-            width:16px; height:16px;
-            border:2px solid var(--gray-200);
-            border-top-color:currentColor;
-            border-radius:50%;
-            animation:spin 1s linear infinite;
-        }
-        
-        @keyframes spin { to { transform:rotate(360deg); } }
-        
-        /* ========== REALTIME BADGE ========== */
-        .realtime-badge {
-            display:inline-flex; align-items:center; gap:4px;
-            background:var(--success-light); 
-            color:var(--success-dark);
-            padding:3px 10px; 
-            border-radius:var(--radius-full);
-            font-size:0.7rem; 
-            font-weight:700;
-            margin-left:auto;
-            border:1px solid var(--success);
-        }
-        
-        .realtime-badge::before {
-            content:''; 
-            width:6px; height:6px;
-            background:var(--success); 
-            border-radius:50%;
-            animation:pulse 2s infinite;
-        }
-        
-        /* ========== RESPONSIVE ========== */
-        @media (min-width:768px) {
-            .main { padding:24px 24px 100px; }
-            .nav-tab { font-size:0.75rem; padding:12px 6px; }
-            .stat-value { font-size:2rem; }
-            .list-item {
-                flex-direction:row; 
-                align-items:center;
-                padding:18px 20px;
-            }
-            .login-card { padding: 36px; }
-        }
-        
-        @media (max-width:380px) {
-            .stats-grid { grid-template-columns:1fr; }
-            .locations-grid { grid-template-columns:1fr; }
-            .btn { width:100%; }
-        }
-    
-        /* ========== STATISTICS STYLES ========== */
-        .disease-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
+            --g900: #0a2e1a;
+            --g800: #0f3d22;
+            --g700: #155c30;
+            --g600: #1a7a3f;
+            --g500: #219150;
+            --g400: #2ebd6a;
+            --g300: #5dd68e;
+            --g200: #a8edca;
+            --g100: #e6f9ef;
+            --g50:  #f2fdf6;
+            --red:  #e05252;
+            --red-bg: #fff0f0;
+            --text: #0d1f13;
+            --text2: #4a6356;
+            --border: #d1ead9;
+            --card: #ffffff;
+            --bg: #f0f8f3;
+            --shadow: 0 2px 16px rgba(21,92,48,0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--bg); min-height:100vh; padding-bottom:96px; color:var(--text); }
+        ::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-thumb{background:var(--g200);border-radius:99px}
+        .hidden{display:none!important}
+        .green{color:var(--g500)!important}
+        .red{color:var(--red)!important}
 
-        .disease-bar-label {
-            width: 140px;
-            text-align: right;
-            padding-right: 12px;
-            color: var(--gray-700);
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        /* LOGIN */
+        #login{position:fixed;inset:0;z-index:1000;background:linear-gradient(150deg,var(--g900) 0%,var(--g700) 60%,var(--g500) 100%);display:flex;justify-content:center;align-items:center}
+        #login::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(46,189,106,.18) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(46,189,106,.12) 0%,transparent 50%)}
+        .login-card{position:relative;background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.15);padding:48px 40px;border-radius:24px;width:90%;max-width:400px;box-shadow:0 24px 64px rgba(0,0,0,.4);text-align:center}
+        .login-logo{width:64px;height:64px;background:var(--g400);border-radius:18px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 8px 24px rgba(46,189,106,.4)}
+        .login-card h2{color:#fff;font-size:1.5rem;font-weight:700;margin-bottom:6px}
+        .login-card p{color:rgba(255,255,255,.55);font-size:.88rem;margin-bottom:28px}
+        .field{position:relative;margin-bottom:14px}
+        .field input{width:100%;padding:14px 16px 14px 44px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:var(--radius-sm);color:#fff;font-size:.95rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s,background .2s}
+        .field input::placeholder{color:rgba(255,255,255,.4)}
+        .field input:focus{border-color:var(--g400);background:rgba(255,255,255,.15)}
+        .field-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none}
+        .btn-primary{width:100%;padding:15px;background:linear-gradient(135deg,var(--g400),var(--g500));color:#fff;border:none;border-radius:var(--radius-sm);font-size:1rem;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:8px;box-shadow:0 4px 20px rgba(46,189,106,.4);transition:transform .15s,box-shadow .15s}
+        .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(46,189,106,.5)}
+        .btn-primary:active{transform:scale(.98)}
+        .login-err{color:#ff8a8a;font-size:.85rem;margin-top:12px;display:none;animation:shake .3s ease}
+        .login-err.show{display:block}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
-        .disease-bar-track {
-            flex: 1;
-            height: 24px;
-            background: var(--gray-100);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-            position: relative;
-        }
+        /* HEADER */
+        header{background:linear-gradient(90deg,var(--g900),var(--g800));color:#fff;padding:0 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.2)}
+        .head-content{max-width:860px;margin:0 auto;height:60px;display:flex;align-items:center;gap:12px}
+        .head-logo{font-size:1.1rem;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+        .head-logo span{background:var(--g400);color:var(--g900);padding:3px 9px;border-radius:6px;font-size:.8rem;font-weight:700}
+        .head-spacer{flex:1}
+        .user-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);padding:4px 12px;border-radius:99px;font-size:.82rem;color:rgba(255,255,255,.85)}
+        #syncStatus{font-size:.78rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px}
+        .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--g400);box-shadow:0 0 6px var(--g400);flex-shrink:0}
+        .sync-dot.off{background:var(--red);box-shadow:0 0 6px var(--red)}
+        .btn-exit{padding:7px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:500;font-family:'DM Sans',sans-serif;transition:background .2s;width:auto;margin-top:0}
+        .btn-exit:hover{background:rgba(255,255,255,.2)}
 
-        .disease-bar-fill {
-            height: 100%;
-            border-radius: var(--radius-sm);
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 8px;
-            color: white;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
+        /* BOTTOM BAR */
+        .totals{position:fixed;bottom:0;left:0;right:0;background:var(--g900);padding:12px 20px;display:flex;justify-content:space-around;align-items:center;z-index:99;box-shadow:0 -4px 24px rgba(0,0,0,.25)}
+        .tot-item{text-align:center}
+        .tot-label{font-size:.62rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+        .tot-value{font-size:1.1rem;font-weight:700;color:#fff;font-family:'DM Mono',monospace}
+        .tot-value.green{color:var(--g300)!important}
+        .tot-value.red{color:#ff8a8a!important}
+        .tot-divider{width:1px;height:32px;background:rgba(255,255,255,.1)}
 
-        .disease-bar-value {
-            margin-left: 12px;
-            color: var(--gray-500);
-            font-weight: 500;
-            min-width: 60px;
-        }
+        /* MAIN */
+        .main{max-width:860px;margin:24px auto;padding:0 16px;display:none}
+        .main.active{display:block;animation:fadeUp .4s ease}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-        .trend-line {
-            stroke: var(--primary-500);
-            stroke-width: 3;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
+        /* TABS */
+        .tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--card);padding:5px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border)}
+        .tab{flex:1;padding:11px 8px;border:none;background:transparent;border-radius:12px;cursor:pointer;font-weight:600;color:var(--text2);font-size:.88rem;font-family:'DM Sans',sans-serif;transition:all .2s}
+        .tab:hover{background:var(--g100);color:var(--g600)}
+        .tab.active{background:linear-gradient(135deg,var(--g600),var(--g500));color:#fff;box-shadow:0 4px 12px rgba(33,145,80,.35)}
 
-        .trend-point {
-            fill: var(--primary-500);
-            stroke: var(--white);
-            stroke-width: 2;
-        }
+        /* CONTENT */
+        .content{display:none}
+        .content.active{display:block;animation:fadeUp .3s ease}
 
-        .trend-grid {
-            stroke: var(--gray-200);
-            stroke-width: 1;
-        }
+        /* CARD */
+        .card{background:var(--card);padding:24px;border-radius:var(--radius);margin-bottom:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+        .card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+        .card-icon{width:36px;height:36px;background:var(--g100);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+        .card-title{font-size:1rem;font-weight:700;color:var(--g800)}
+        .card-sub{font-size:.8rem;color:var(--text2);margin-top:1px}
 
-        .stats-legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-light);
-        }
+        /* FORM */
+        label{display:block;font-size:.78rem;font-weight:700;color:var(--text2);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+        input[type=number],input[type=date],select,textarea{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;font-family:'DM Sans',sans-serif;color:var(--text);background:var(--g50);outline:none;transition:border-color .2s,box-shadow .2s}
+        input:focus,select:focus,textarea:focus{border-color:var(--g400);box-shadow:0 0 0 3px rgba(46,189,106,.15)}
+        select{cursor:pointer}
+        textarea{resize:vertical}
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            color: var(--gray-600);
-        }
+        .radio-group{display:flex;gap:10px;margin:6px 0}
+        .radio-group input[type=radio]{display:none}
+        .radio-group label{flex:1;padding:14px;text-align:center;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-weight:700;font-size:.9rem;transition:all .2s;margin:0;color:var(--text2);background:var(--g50);text-transform:none;letter-spacing:0}
+        .radio-group label:hover{border-color:var(--g300)}
+        .radio-group input:checked+label.ent{background:linear-gradient(135deg,var(--g500),var(--g400));color:#fff;border-color:var(--g500);box-shadow:0 4px 14px rgba(33,145,80,.3)}
+        .radio-group input:checked+label.usc{background:linear-gradient(135deg,#e05252,#f07070);color:#fff;border-color:var(--red);box-shadow:0 4px 14px rgba(224,82,82,.3)}
 
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-        }
+        .btn-save{width:100%;padding:15px;background:linear-gradient(135deg,var(--g600),var(--g500));color:#fff;border:none;border-radius:var(--radius-sm);font-size:1rem;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:20px;box-shadow:0 4px 16px rgba(33,145,80,.35);transition:transform .15s,box-shadow .15s;letter-spacing:.3px}
+        .btn-save:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(33,145,80,.45)}
+        .btn-save:active{transform:scale(.98)}
+        .btn-reload{padding:10px 18px;background:var(--g50);border:1.5px solid var(--border);color:var(--text2);border-radius:var(--radius-sm);cursor:pointer;font-size:.88rem;font-weight:600;font-family:'DM Sans',sans-serif;margin-top:14px;width:auto;transition:all .2s}
+        .btn-reload:hover{background:var(--g100);border-color:var(--g300);color:var(--g700)}
 
+        /* STAT GRID */
+        .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+        .stat-box{background:var(--g50);border:1px solid var(--border);padding:18px 14px;border-radius:var(--radius-sm);text-align:center;transition:transform .2s}
+        .stat-box:hover{transform:translateY(-2px)}
+        .stat-box .val{font-size:1.2rem;font-weight:700;font-family:'DM Mono',monospace}
+        .stat-box .lab{font-size:.72rem;color:var(--text2);margin-top:5px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+        .stat-box.accent{background:linear-gradient(135deg,var(--g700),var(--g600));border-color:var(--g700);grid-column:1/-1}
+        .stat-box.accent .val{color:#fff}
+        .stat-box.accent .lab{color:rgba(255,255,255,.65)}
+
+        /* PROGETTO ROW */
+        .prog-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+        .prog-row:last-child{border-bottom:none}
+        .prog-name{font-weight:600;font-size:.9rem}
+        .prog-saldo{font-size:.88rem;font-weight:700;font-family:'DM Mono',monospace}
+
+        /* FILTRO */
+        .filtro{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+        .filtro-btn{padding:7px 14px;border:1.5px solid var(--border);border-radius:99px;background:white;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--text2);font-family:'DM Sans',sans-serif;transition:all .2s;width:auto;margin-top:0}
+        .filtro-btn:hover{border-color:var(--g300);color:var(--g700);background:var(--g50)}
+        .filtro-btn.active{background:var(--g700);color:#fff;border-color:var(--g700)}
+
+        /* ITEMS */
+        .item{background:var(--g50);padding:16px;border-radius:var(--radius-sm);margin-bottom:10px;border:1px solid var(--border);border-left:4px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;transition:box-shadow .2s,transform .2s}
+        .item:hover{box-shadow:var(--shadow);transform:translateX(2px)}
+        .item.ent{border-left-color:var(--g500)}
+        .item.usc{border-left-color:var(--red)}
+        .item-title{font-weight:700;font-size:.95rem}
+        .badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-size:.72rem;font-weight:700;margin-left:8px;vertical-align:middle}
+        .badge.ent-b{background:var(--g100);color:var(--g700)}
+        .badge.usc-b{background:var(--red-bg);color:var(--red)}
+        .item-desc{font-size:.83rem;color:var(--text2);margin-top:5px}
+        .meta-info{font-size:.72rem;color:#aab8b2;margin-top:4px}
+        .item-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+        .item-amount{font-weight:700;font-family:'DM Mono',monospace;font-size:1rem;white-space:nowrap}
+        .btn-del{padding:5px 10px;background:transparent;border:1px solid #fccaca;color:var(--red);border-radius:7px;cursor:pointer;font-size:.78rem;font-family:'DM Sans',sans-serif;transition:all .2s;width:auto;margin-top:0}
+        .btn-del:hover{background:var(--red-bg)}
+
+        /* ALERT */
+        .alert{padding:13px 16px;border-radius:var(--radius-sm);margin-bottom:16px;display:none;font-weight:500;font-size:.9rem}
+        .alert.ok{background:var(--g100);color:var(--g700);border:1px solid var(--g200);display:block}
+        .alert.err{background:var(--red-bg);color:var(--red);border:1px solid #fccaca;display:block}
+
+        /* LOADING */
+        .loading{display:none;position:fixed;inset:0;background:rgba(10,46,26,.85);backdrop-filter:blur(4px);z-index:2000;justify-content:center;align-items:center;flex-direction:column;color:#fff}
+        .loading.active{display:flex}
+        .spinner{width:44px;height:44px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--g400);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .loading p{font-size:.9rem;color:rgba(255,255,255,.7)}
+
+        .divider{height:1px;background:var(--border);margin:4px 0 14px}
+        .empty{text-align:center;padding:32px 16px;color:var(--text2);font-size:.9rem}
+        .empty-icon{font-size:2.5rem;margin-bottom:10px}
+
+        /* STAFF BOX */
+        .staff-box{background:var(--g100);border:1.5px solid var(--g300);border-radius:var(--radius-sm);padding:14px;margin-top:10px;display:none}
+        .staff-box.show{display:block}
+        .staff-box-title{font-size:.72rem;font-weight:700;color:var(--g700);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+        .loc-group{margin-bottom:10px}
+        .loc-label{font-size:.68rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+        .pills{display:flex;flex-wrap:wrap;gap:6px}
+        .pill{padding:5px 11px;background:#fff;border:1.5px solid var(--g200);border-radius:99px;font-size:.78rem;font-weight:600;color:var(--g800);cursor:pointer;transition:all .2s}
+        .pill:hover{background:var(--g500);color:#fff;border-color:var(--g500)}
+        .pill.selected{background:var(--g600);color:#fff;border-color:var(--g600);box-shadow:0 0 0 3px rgba(33,145,80,.25)}
     </style>
-<base target="_blank">
 </head>
 <body>
-    <!-- SYNC INDICATOR -->
-    <div class="sync-indicator" id="syncIndicator">
-        <div class="spinner"></div>
-        <span id="syncText">Syncing...</span>
+
+<!-- LOGIN -->
+<div id="login">
+    <div class="login-card">
+        <div class="login-logo">🌿</div>
+        <h2>MIPPP</h2>
+        <p>Enter your credentials to access</p>
+        <div class="field"><span class="field-icon">✉️</span><input type="email" id="user" placeholder="Email" autocomplete="username"></div>
+        <div class="field"><span class="field-icon">🔑</span><input type="password" id="pass" placeholder="Password" autocomplete="current-password"></div>
+        <button class="btn-primary" onclick="accedi()">Sign In</button>
+        <div class="login-err" id="loginErr">Invalid credentials. Please try again.</div>
+    </div>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p id="loadingMsg">Syncing...</p>
+</div>
+
+<!-- HEADER -->
+<header id="header" class="hidden">
+    <div class="head-content">
+        <div class="head-logo">🌿 MIPPP <span>LIVE</span></div>
+        <div class="head-spacer"></div>
+        <span class="user-badge" id="utenteLabel">—</span>
+        <div id="syncStatus"><span class="sync-dot" id="syncDot"></span>online</div>
+        <button class="btn-exit" onclick="esci()">Sign Out</button>
+    </div>
+</header>
+
+<!-- BARRA TOTALE -->
+<div class="totals hidden" id="barraTot">
+    <div class="tot-item">
+        <div class="tot-label">Income</div>
+        <div class="tot-value green" id="tEnt">KSh 0</div>
+    </div>
+    <div class="tot-divider"></div>
+    <div class="tot-item">
+        <div class="tot-label">Expenses</div>
+        <div class="tot-value red" id="tUsc">KSh 0</div>
+    </div>
+    <div class="tot-divider"></div>
+    <div class="tot-item">
+        <div class="tot-label">Balance</div>
+        <div class="tot-value" id="tSal">KSh 0</div>
+    </div>
+    <div class="tot-divider"></div>
+    <div class="tot-item">
+        <div class="tot-label">No.</div>
+        <div class="tot-value" id="tNum">0</div>
+    </div>
+</div>
+
+<!-- APP -->
+<div class="main" id="app">
+    <div id="msg" class="alert"></div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="tab('home',this)">🏠 Home</button>
+        <button class="tab" onclick="tab('add',this)">＋ Add</button>
+        <button class="tab" onclick="tab('list',this)">📋 List</button>
     </div>
 
-    <!-- LOGIN SCREEN -->
-    <div id="login">
-        <div class="login-container">
-            <div class="login-header">
-                <div class="login-logo">🏥</div>
-                <h1>Morijo Health</h1>
-                <p>Medical Records Management System</p>
+    <!-- HOME -->
+    <div id="home" class="content active">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">📊</div>
+                <div><div class="card-title">MIPPP Summary</div><div class="card-sub">Data shared in real time</div></div>
             </div>
-            
-            <div class="login-card">
-                <div class="field">
-                    <span class="field-icon">👤</span>
-                    <input type="text" id="user" placeholder="Username" autocomplete="off" autocapitalize="off">
-                </div>
-                <div class="field">
-                    <span class="field-icon">🔐</span>
-                    <input type="password" id="pwd" placeholder="Password">
-                </div>
-                <button class="btn-primary" onclick="accedi()">
-                    <span>Sign In</span>
-                    <span>→</span>
-                </button>
-                <div class="login-err" id="loginErr"></div>
+            <div class="stat-grid">
+                <div class="stat-box"><div class="val green" id="hEnt">KSh 0</div><div class="lab">Total Income</div></div>
+                <div class="stat-box"><div class="val red" id="hUsc">KSh 0</div><div class="lab">Total Expenses</div></div>
+                <div class="stat-box accent"><div class="val" id="hSal">KSh 0</div><div class="lab">Current Balance</div></div>
             </div>
-            
-            <div class="login-footer">
-                <p>🔒 Secure Medical System v2.0</p>
-                <p style="margin-top:4px; font-size:0.75rem; color:var(--gray-300);">Use:nurse and admin</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">📁</div>
+                <div class="card-title">By Project</div>
             </div>
+            <div id="riepilogoProgetti"><div class="empty"><div class="empty-icon">📂</div>No data</div></div>
         </div>
     </div>
 
-    <!-- MAIN INTERFACE -->
-    <header>
-        <div class="head-content">
-            <div class="head-logo">🏥 <strong>MORIJO</strong> <span>HEALTH</span></div>
-            <div class="head-spacer"></div>
-            <div class="sync-status" id="syncStatus">● offline</div>
-            <button class="btn-exit" onclick="esci()">Logout</button>
-        </div>
-    </header>
-
-    <div class="main" id="mainContent">
-        <!-- DASHBOARD SECTION -->
-        <div class="section active" id="dashboard">
-            <div class="stats-grid">
-                <div class="stat-card teal">
-                    <div class="stat-value" id="statPazienti">0</div>
-                    <div class="stat-label">Total Patients</div>
-                    <div class="stat-change">Active records</div>
-                </div>
-                <div class="stat-card green">
-                    <div class="stat-value" id="statNascite">0</div>
-                    <div class="stat-label">Births</div>
-                    <div class="stat-change">Registered</div>
-                </div>
-                <div class="stat-card red">
-                    <div class="stat-value" id="statDecessi">0</div>
-                    <div class="stat-label">Deaths</div>
-                    <div class="stat-change">Recorded</div>
-                </div>
-                <div class="stat-card cyan">
-                    <div class="stat-value" id="statVisite">0</div>
-                    <div class="stat-label">Today's Visits</div>
-                    <div class="stat-change">Current</div>
-                </div>
+    <!-- AGGIUNGI -->
+    <div id="add" class="content">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">✏️</div>
+                <div class="card-title">New Transaction</div>
             </div>
-            
-            <div class="locations-grid" id="locationStats"></div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h3>📊 Recent Activity</h3>
-                    <span class="realtime-badge">LIVE</span>
-                </div>
-                <div class="card-body" id="recentActivity">
-                    <div class="empty">
-                        <div class="empty-icon">📋</div>
-                        <h4>No recent activity</h4>
-                        <p>Data will appear here as records are added</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PATIENTS SECTION -->
-        <div class="section" id="patients">
-            <div class="card">
-                <div class="card-header">
-                    <h3>👤 Add New Patient</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="form-field">
-                            <label>First Name <span class="required">*</span></label>
-                            <input type="text" id="pNome" placeholder="John" autocapitalize="words">
-                        </div>
-                        <div class="form-field">
-                            <label>Last Name <span class="required">*</span></label>
-                            <input type="text" id="pCognome" placeholder="Doe" autocapitalize="words">
-                        </div>
-                        <div class="form-field">
-                            <label>Age</label>
-                            <input type="number" id="pEta" placeholder="25" min="0" max="120">
-                        </div>
-                        <div class="form-field">
-                            <label>Location <span class="required">*</span></label>
-                            <select id="pLocation">
-                                <option value="">Select location</option>
-                                <option>Morijo</option>
-                                <option>Angata</option>
-                                <option>Marti</option>
-                                <option>Ngorika</option>
-                            </select>
-                        </div>
-                        <div class="form-field full-width">
-                            <label>Medical History / Notes</label>
-                            <textarea id="pNote" placeholder="Previous conditions, allergies, medications..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-success" onclick="salvaPaziente()">
-                            <span>✓</span>
-                            <span>Add Patient</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="list-container" id="listaPazienti">
-                <div class="empty">
-                    <div class="empty-icon">👥</div>
-                    <h4>No patients recorded</h4>
-                    <p>Add your first patient using the form above</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- VISITS SECTION -->
-        <div class="section" id="visits">
-            <div class="card">
-                <div class="card-header">
-                    <h3>🏥 Register Medical Visit</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="form-field">
-                            <label>Visit Date <span class="required">*</span></label>
-                            <input type="date" id="vData">
-                        </div>
-                        <div class="form-field">
-                            <label>Patient <span class="required">*</span></label>
-                            <select id="vPaziente">
-                                <option value="">Select patient</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label>Location <span class="required">*</span></label>
-                            <select id="vLocation">
-                                <option value="">Select location</option>
-                                <option>Morijo</option>
-                                <option>Angata</option>
-                                <option>Marti</option>
-                                <option>Ngorika</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label>Visit Type <span class="required">*</span></label>
-                            <select id="vTipo">
-                                <option value="">Select type</option>
-                                <option>Preventive Care</option>
-                                <option>Follow-up</option>
-                                <option>Emergency</option>
-                                <option>Vaccination</option>
-                                <option>Prenatal Check</option>
-                                <option>Chronic Disease Management</option>
-                            </select>
-                        </div>
-                        <div class="form-field full-width">
-                            <label>Diagnosis / Disease <span class="required">*</span></label>
-                            <select id="vDisease" class="disease-select">
-                                <option value="">Select diagnosis...</option>
-                                <optgroup label="🔴 Infectious & Parasitic Diseases">
-                                    <option value="Malaria">Malaria</option>
-                                    <option value="Typhoid Fever">Typhoid Fever</option>
-                                    <option value="Cholera">Cholera</option>
-                                    <option value="Tuberculosis (TB)">Tuberculosis (TB)</option>
-                                    <option value="HIV/AIDS">HIV/AIDS</option>
-                                    <option value="Measles">Measles</option>
-                                    <option value="Hepatitis A">Hepatitis A</option>
-                                    <option value="Hepatitis B">Hepatitis B</option>
-                                    <option value="Hepatitis C">Hepatitis C</option>
-                                    <option value="Dengue Fever">Dengue Fever</option>
-                                    <option value="Yellow Fever">Yellow Fever</option>
-                                    <option value="Meningitis">Meningitis</option>
-                                    <option value="Pneumonia">Pneumonia</option>
-                                    <option value="COVID-19">COVID-19</option>
-                                    <option value="Influenza">Influenza</option>
-                                    <option value="Chickenpox">Chickenpox</option>
-                                    <option value="Tetanus">Tetanus</option>
-                                    <option value="Whooping Cough">Whooping Cough</option>
-                                    <option value="Diphtheria">Diphtheria</option>
-                                    <option value="Polio">Polio</option>
-                                    <option value="Rabies">Rabies</option>
-                                    <option value="Leprosy">Leprosy</option>
-                                    <option value="Schistosomiasis">Schistosomiasis</option>
-                                    <option value="Intestinal Worms">Intestinal Worms</option>
-                                    <option value="Diarrheal Disease">Diarrheal Disease</option>
-                                    <option value="Upper Respiratory Infection">Upper Respiratory Infection</option>
-                                    <option value="Skin Infection">Skin Infection</option>
-                                    <option value="Eye Infection">Eye Infection</option>
-                                    <option value="Ear Infection">Ear Infection</option>
-                                    <option value="Urinary Tract Infection">Urinary Tract Infection</option>
-                                </optgroup>
-                                <optgroup label="🟠 Maternal & Neonatal">
-                                    <option value="Pregnancy - Normal">Pregnancy - Normal</option>
-                                    <option value="Pregnancy - High Risk">Pregnancy - High Risk</option>
-                                    <option value="Anemia in Pregnancy">Anemia in Pregnancy</option>
-                                    <option value="Preeclampsia">Preeclampsia</option>
-                                    <option value="Eclampsia">Eclampsia</option>
-                                    <option value="Postpartum Hemorrhage">Postpartum Hemorrhage</option>
-                                    <option value="Preterm Labor">Preterm Labor</option>
-                                    <option value="Obstructed Labor">Obstructed Labor</option>
-                                    <option value="Newborn Jaundice">Newborn Jaundice</option>
-                                    <option value="Low Birth Weight">Low Birth Weight</option>
-                                    <option value="Neonatal Sepsis">Neonatal Sepsis</option>
-                                    <option value="Birth Asphyxia">Birth Asphyxia</option>
-                                    <option value="Congenital Abnormalities">Congenital Abnormalities</option>
-                                </optgroup>
-                                <optgroup label="🟡 Nutritional & Metabolic">
-                                    <option value="Severe Acute Malnutrition">Severe Acute Malnutrition</option>
-                                    <option value="Moderate Acute Malnutrition">Moderate Acute Malnutrition</option>
-                                    <option value="Vitamin A Deficiency">Vitamin A Deficiency</option>
-                                    <option value="Iron Deficiency Anemia">Iron Deficiency Anemia</option>
-                                    <option value="Iodine Deficiency">Iodine Deficiency</option>
-                                    <option value="Rickets">Rickets</option>
-                                    <option value="Scurvy">Scurvy</option>
-                                    <option value="Diabetes Type 1">Diabetes Type 1</option>
-                                    <option value="Diabetes Type 2">Diabetes Type 2</option>
-                                    <option value="Diabetes - Gestational">Diabetes - Gestational</option>
-                                    <option value="Hypoglycemia">Hypoglycemia</option>
-                                    <option value="Hyperglycemia">Hyperglycemia</option>
-                                    <option value="Dehydration">Dehydration</option>
-                                    <option value="Electrolyte Imbalance">Electrolyte Imbalance</option>
-                                </optgroup>
-                                <optgroup label="🟢 Cardiovascular">
-                                    <option value="Hypertension">Hypertension</option>
-                                    <option value="Hypertensive Heart Disease">Hypertensive Heart Disease</option>
-                                    <option value="Heart Failure">Heart Failure</option>
-                                    <option value="Rheumatic Heart Disease">Rheumatic Heart Disease</option>
-                                    <option value="Ischemic Heart Disease">Ischemic Heart Disease</option>
-                                    <option value="Arrhythmia">Arrhythmia</option>
-                                    <option value="Stroke">Stroke</option>
-                                    <option value="Deep Vein Thrombosis">Deep Vein Thrombosis</option>
-                                    <option value="Anemia - General">Anemia - General</option>
-                                    <option value="Sickle Cell Disease">Sickle Cell Disease</option>
-                                </optgroup>
-                                <optgroup label="🔵 Respiratory">
-                                    <option value="Asthma">Asthma</option>
-                                    <option value="Chronic Obstructive Pulmonary Disease">Chronic Obstructive Pulmonary Disease</option>
-                                    <option value="Bronchitis">Bronchitis</option>
-                                    <option value="Tonsillitis">Tonsillitis</option>
-                                    <option value="Sinusitis">Sinusitis</option>
-                                    <option value="Pleural Effusion">Pleural Effusion</option>
-                                    <option value="Hemoptysis">Hemoptysis</option>
-                                </optgroup>
-                                <optgroup label="🟣 Gastrointestinal">
-                                    <option value="Gastroenteritis">Gastroenteritis</option>
-                                    <option value="Peptic Ulcer Disease">Peptic Ulcer Disease</option>
-                                    <option value="Gastritis">Gastritis</option>
-                                    <option value="Appendicitis">Appendicitis</option>
-                                    <option value="Intestinal Obstruction">Intestinal Obstruction</option>
-                                    <option value="Hernia">Hernia</option>
-                                    <option value="Hemorrhoids">Hemorrhoids</option>
-                                    <option value="Liver Disease">Liver Disease</option>
-                                    <option value="Cirrhosis">Cirrhosis</option>
-                                    <option value="Hepatomegaly">Hepatomegaly</option>
-                                    <option value="Splenomegaly">Splenomegaly</option>
-                                    <option value="Abdominal Pain - Unspecified">Abdominal Pain - Unspecified</option>
-                                </optgroup>
-                                <optgroup label="🟤 Genitourinary">
-                                    <option value="Kidney Disease">Kidney Disease</option>
-                                    <option value="Acute Kidney Injury">Acute Kidney Injury</option>
-                                    <option value="Chronic Kidney Disease">Chronic Kidney Disease</option>
-                                    <option value="Nephrotic Syndrome">Nephrotic Syndrome</option>
-                                    <option value="Kidney Stones">Kidney Stones</option>
-                                    <option value="Prostate Disease">Prostate Disease</option>
-                                    <option value="Sexually Transmitted Infection">Sexually Transmitted Infection</option>
-                                    <option value="Pelvic Inflammatory Disease">Pelvic Inflammatory Disease</option>
-                                    <option value="Cervical Dysplasia">Cervical Dysplasia</option>
-                                    <option value="Breast Mass">Breast Mass</option>
-                                    <option value="Vaginal Discharge">Vaginal Discharge</option>
-                                    <option value="Dysmenorrhea">Dysmenorrhea</option>
-                                    <option value="Menorrhagia">Menorrhagia</option>
-                                    <option value="Infertility">Infertility</option>
-                                </optgroup>
-                                <optgroup label="⚫ Neurological & Mental">
-                                    <option value="Epilepsy">Epilepsy</option>
-                                    <option value="Seizure Disorder">Seizure Disorder</option>
-                                    <option value="Headache - Tension">Headache - Tension</option>
-                                    <option value="Headache - Migraine">Headache - Migraine</option>
-                                    <option value="Meningitis - Bacterial">Meningitis - Bacterial</option>
-                                    <option value="Meningitis - Viral">Meningitis - Viral</option>
-                                    <option value="Depression">Depression</option>
-                                    <option value="Anxiety Disorder">Anxiety Disorder</option>
-                                    <option value="Psychosis">Psychosis</option>
-                                    <option value="Substance Abuse">Substance Abuse</option>
-                                    <option value="Developmental Delay">Developmental Delay</option>
-                                    <option value="Cerebral Palsy">Cerebral Palsy</option>
-                                    <option value="Hydrocephalus">Hydrocephalus</option>
-                                </optgroup>
-                                <optgroup label="⚪ Musculoskeletal">
-                                    <option value="Arthritis">Arthritis</option>
-                                    <option value="Osteoarthritis">Osteoarthritis</option>
-                                    <option value="Rheumatoid Arthritis">Rheumatoid Arthritis</option>
-                                    <option value="Gout">Gout</option>
-                                    <option value="Back Pain">Back Pain</option>
-                                    <option value="Joint Pain">Joint Pain</option>
-                                    <option value="Muscle Pain">Muscle Pain</option>
-                                    <option value="Fracture">Fracture</option>
-                                    <option value="Dislocation">Dislocation</option>
-                                    <option value="Sprain/Strain">Sprain/Strain</option>
-                                    <option value="Osteomyelitis">Osteomyelitis</option>
-                                </optgroup>
-                                <optgroup label="🟡 Skin & Eye">
-                                    <option value="Eczema">Eczema</option>
-                                    <option value="Dermatitis">Dermatitis</option>
-                                    <option value="Scabies">Scabies</option>
-                                    <option value="Tinea (Ringworm)">Tinea (Ringworm)</option>
-                                    <option value="Impetigo">Impetigo</option>
-                                    <option value="Cellulitis">Cellulitis</option>
-                                    <option value="Abscess">Abscess</option>
-                                    <option value="Burns">Burns</option>
-                                    <option value="Conjunctivitis">Conjunctivitis</option>
-                                    <option value="Cataract">Cataract</option>
-                                    <option value="Trachoma">Trachoma</option>
-                                    <option value="Glaucoma">Glaucoma</option>
-                                    <option value="Dental Caries">Dental Caries</option>
-                                    <option value="Gingivitis">Gingivitis</option>
-                                </optgroup>
-                                <optgroup label="🔴 Cancers & Tumors">
-                                    <option value="Cervical Cancer">Cervical Cancer</option>
-                                    <option value="Breast Cancer">Breast Cancer</option>
-                                    <option value="Prostate Cancer">Prostate Cancer</option>
-                                    <option value="Kaposi Sarcoma">Kaposi Sarcoma</option>
-                                    <option value="Lymphoma">Lymphoma</option>
-                                    <option value="Leukemia">Leukemia</option>
-                                    <option value="Liver Cancer">Liver Cancer</option>
-                                    <option value="Colorectal Cancer">Colorectal Cancer</option>
-                                    <option value="Lung Cancer">Lung Cancer</option>
-                                    <option value="Skin Cancer">Skin Cancer</option>
-                                    <option value="Unspecified Mass/Tumor">Unspecified Mass/Tumor</option>
-                                </optgroup>
-                                <optgroup label="⚫ Injuries & Trauma">
-                                    <option value="Road Traffic Accident">Road Traffic Accident</option>
-                                    <option value="Fall Injury">Fall Injury</option>
-                                    <option value="Cut/Wound">Cut/Wound</option>
-                                    <option value="Animal Bite">Animal Bite</option>
-                                    <option value="Snake Bite">Snake Bite</option>
-                                    <option value="Insect Bite">Insect Bite</option>
-                                    <option value="Burn - Thermal">Burn - Thermal</option>
-                                    <option value="Burn - Chemical">Burn - Chemical</option>
-                                    <option value="Drowning/Near Drowning">Drowning/Near Drowning</option>
-                                    <option value="Poisoning">Poisoning</option>
-                                    <option value="Foreign Body">Foreign Body</option>
-                                    <option value="Head Injury">Head Injury</option>
-                                    <option value="Spinal Injury">Spinal Injury</option>
-                                    <option value="Chest Injury">Chest Injury</option>
-                                    <option value="Abdominal Injury">Abdominal Injury</option>
-                                </optgroup>
-                                <optgroup label="🩺 Other/General">
-                                    <option value="Fever - Unspecified">Fever - Unspecified</option>
-                                    <option value="Pain - Unspecified">Pain - Unspecified</option>
-                                    <option value="Cough">Cough</option>
-                                    <option value="Dyspnea">Dyspnea</option>
-                                    <option value="Edema">Edema</option>
-                                    <option value="Weight Loss">Weight Loss</option>
-                                    <option value="Failure to Thrive">Failure to Thrive</option>
-                                    <option value="Well Child Visit">Well Child Visit</option>
-                                    <option value="Family Planning">Family Planning</option>
-                                    <option value="Immunization">Immunization</option>
-                                    <option value="Health Education">Health Education</option>
-                                    <option value="Other - Specify in Notes">Other - Specify in Notes</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                        <div class="form-field full-width">
-                            <label>Clinical Notes</label>
-                            <textarea id="vNote" placeholder="Symptoms, treatment provided, medications prescribed..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-success" onclick="salvaVisita()">
-                            <span>✓</span>
-                            <span>Register Visit</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="list-container" id="listaVisite">
-                <div class="empty">
-                    <div class="empty-icon">🏥</div>
-                    <h4>No visits recorded</h4>
-                    <p>Register a medical visit using the form above</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- BIRTHS SECTION -->
-        <div class="section" id="births">
-            <div class="card">
-                <div class="card-header">
-                    <h3>👶 Register Birth</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="form-field">
-                            <label>Birth Date <span class="required">*</span></label>
-                            <input type="date" id="mData">
-                        </div>
-                        <div class="form-field">
-                            <label>Mother <span class="required">*</span></label>
-                            <select id="mMadre">
-                                <option value="">Select mother</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label>Location <span class="required">*</span></label>
-                            <select id="mLocation">
-                                <option value="">Select location</option>
-                                <option>Morijo</option>
-                                <option>Angata</option>
-                                <option>Marti</option>
-                                <option>Ngorika</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label>Sex <span class="required">*</span></label>
-                            <select id="mSesso">
-                                <option value="">Select</option>
-                                <option value="M">Male</option>
-                                <option value="F">Female</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label>Birth Weight (kg)</label>
-                            <input type="number" id="mPeso" placeholder="3.5" min="0" step="0.1">
-                        </div>
-                        <div class="form-field">
-                            <label>APGAR Score</label>
-                            <input type="number" id="mApgar" placeholder="9" min="0" max="10">
-                        </div>
-                        <div class="form-field full-width">
-                            <label>Delivery Complications / Notes</label>
-                            <textarea id="mNote" placeholder="Any complications during delivery..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-success" onclick="salvaNascita()">
-                            <span>✓</span>
-                            <span>Register Birth</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="list-container" id="listaNascite">
-                <div class="empty">
-                    <div class="empty-icon">👶</div>
-                    <h4>No births recorded</h4>
-                    <p>Register a birth using the form above</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- DEATHS SECTION -->
-        <div class="section" id="deaths">
-            <div class="card">
-                <div class="card-header">
-                    <h3>⚰️ Register Death</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="form-field">
-                            <label>Date of Death <span class="required">*</span></label>
-                            <input type="date" id="dData">
-                        </div>
-                        <div class="form-field">
-                            <label>Deceased <span class="required">*</span></label>
-                            <select id="dPaziente">
-                                <option value="">Select patient</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label>Location <span class="required">*</span></label>
-                            <select id="dLocation">
-                                <option value="">Select location</option>
-                                <option>Morijo</option>
-                                <option>Angata</option>
-                                <option>Marti</option>
-                                <option>Ngorika</option>
-                            </select>
-                        </div>
-                        <div class="form-field full-width">
-                            <label>Cause of Death <span class="required">*</span></label>
-                            <select id="dCausa" class="disease-select">
-                                <option value="">Select cause of death...</option>
-                                <optgroup label="🔴 Communicable Diseases">
-                                    <option value="Malaria">Malaria</option>
-                                    <option value="HIV/AIDS related">HIV/AIDS related</option>
-                                    <option value="Tuberculosis">Tuberculosis</option>
-                                    <option value="Lower Respiratory Infection">Lower Respiratory Infection</option>
-                                    <option value="Diarrheal Disease">Diarrheal Disease</option>
-                                    <option value="Meningitis">Meningitis</option>
-                                    <option value="Measles">Measles</option>
-                                    <option value="Tetanus">Tetanus</option>
-                                    <option value="Pertussis">Pertussis</option>
-                                    <option value="COVID-19">COVID-19</option>
-                                    <option value="Sepsis">Sepsis</option>
-                                    <option value="Pneumonia">Pneumonia</option>
-                                </optgroup>
-                                <optgroup label="🟠 Maternal & Perinatal">
-                                    <option value="Maternal Hemorrhage">Maternal Hemorrhage</option>
-                                    <option value="Eclampsia/Pre-eclampsia">Eclampsia/Pre-eclampsia</option>
-                                    <option value="Obstructed Labor">Obstructed Labor</option>
-                                    <option value="Abortion Complications">Abortion Complications</option>
-                                    <option value="Sepsis - Maternal">Sepsis - Maternal</option>
-                                    <option value="Preterm Birth Complications">Preterm Birth Complications</option>
-                                    <option value="Birth Asphyxia">Birth Asphyxia</option>
-                                    <option value="Neonatal Sepsis">Neonatal Sepsis</option>
-                                    <option value="Congenital Abnormalities">Congenital Abnormalities</option>
-                                    <option value="Low Birth Weight">Low Birth Weight</option>
-                                </optgroup>
-                                <optgroup label="🟡 Nutritional">
-                                    <option value="Protein-Energy Malnutrition">Protein-Energy Malnutrition</option>
-                                    <option value="Severe Anemia">Severe Anemia</option>
-                                    <option value="Vitamin A Deficiency">Vitamin A Deficiency</option>
-                                    <option value="Iodine Deficiency">Iodine Deficiency</option>
-                                </optgroup>
-                                <optgroup label="🟢 Non-Communicable">
-                                    <option value="Cardiovascular Disease">Cardiovascular Disease</option>
-                                    <option value="Stroke">Stroke</option>
-                                    <option value="Hypertensive Heart Disease">Hypertensive Heart Disease</option>
-                                    <option value="Ischemic Heart Disease">Ischemic Heart Disease</option>
-                                    <option value="Diabetes Mellitus">Diabetes Mellitus</option>
-                                    <option value="Chronic Kidney Disease">Chronic Kidney Disease</option>
-                                    <option value="Liver Cirrhosis">Liver Cirrhosis</option>
-                                    <option value="Chronic Obstructive Pulmonary Disease">Chronic Obstructive Pulmonary Disease</option>
-                                    <option value="Asthma">Asthma</option>
-                                    <option value="Cancer - Unspecified">Cancer - Unspecified</option>
-                                    <option value="Cervical Cancer">Cervical Cancer</option>
-                                    <option value="Breast Cancer">Breast Cancer</option>
-                                    <option value="Prostate Cancer">Prostate Cancer</option>
-                                    <option value="Kaposi Sarcoma">Kaposi Sarcoma</option>
-                                    <option value="Liver Cancer">Liver Cancer</option>
-                                    <option value="Colorectal Cancer">Colorectal Cancer</option>
-                                    <option value="Epilepsy">Epilepsy</option>
-                                </optgroup>
-                                <optgroup label="🔵 Injuries">
-                                    <option value="Road Traffic Accident">Road Traffic Accident</option>
-                                    <option value="Fall">Fall</option>
-                                    <option value="Drowning">Drowning</option>
-                                    <option value="Burns">Burns</option>
-                                    <option value="Poisoning">Poisoning</option>
-                                    <option value="Violence/Assault">Violence/Assault</option>
-                                    <option value="Self-harm/Suicide">Self-harm/Suicide</option>
-                                    <option value="Animal Bite">Animal Bite</option>
-                                    <option value="Snake Bite">Snake Bite</option>
-                                </optgroup>
-                                <optgroup label="⚫ Other">
-                                    <option value="Unknown/Undetermined">Unknown/Undetermined</option>
-                                    <option value="Other - Specify">Other - Specify in Notes</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                        <div class="form-field full-width">
-                            <label>Additional Notes</label>
-                            <textarea id="dNote" placeholder="Circumstances, contributing factors..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-success" onclick="salvaDecesso()">
-                            <span>✓</span>
-                            <span>Register Death</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="list-container" id="listaDecessi">
-                <div class="empty">
-                    <div class="empty-icon">⚰️</div>
-                    <h4>No deaths recorded</h4>
-                    <p>Register a death using the form above</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- STATISTICS SECTION -->
-        <div class="section" id="statistics">
-            <div class="stats-grid">
-                <div class="stat-card teal">
-                    <div class="stat-value" id="statTotalDiseases">0</div>
-                    <div class="stat-label">Total Cases</div>
-                    <div class="stat-change">All time</div>
-                </div>
-                <div class="stat-card red">
-                    <div class="stat-value" id="statTopDisease">-</div>
-                    <div class="stat-label">Most Common</div>
-                    <div class="stat-change">Highest prevalence</div>
-                </div>
-                <div class="stat-card amber">
-                    <div class="stat-value" id="statThisMonth">0</div>
-                    <div class="stat-label">This Month</div>
-                    <div class="stat-change">Current cases</div>
-                </div>
-                <div class="stat-card cyan">
-                    <div class="stat-value" id="statUniqueDiseases">0</div>
-                    <div class="stat-label">Disease Types</div>
-                    <div class="stat-change">Different conditions</div>
-                </div>
+            <label>Project</label>
+            <select id="prog" onchange="staffUpdate()">
+                <option value="">Select project...</option>
+                <option value="Lchekuti">📚 Lchekuti Educational</option>
+                <option value="Nursery">🍼 Nursery</option>
+                <option value="Road">🛣️ Road for Poor</option>
+                <option value="Health">🏥 Health Morijo</option>
+            </select>
+            <label>Type</label>
+            <div class="radio-group">
+                <input type="radio" name="tipo" id="t1" value="Income" onchange="staffUpdate()">
+                <label for="t1" class="ent">📥 Income</label>
+                <input type="radio" name="tipo" id="t2" value="Expense" onchange="staffUpdate()">
+                <label for="t2" class="usc">📤 Expense</label>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3>📊 Disease Distribution by Category</h3>
-                    <span class="realtime-badge">LIVE</span>
-                </div>
-                <div class="card-body">
-                    <div id="diseaseCategoryChart" style="height: 300px; position: relative;">
-                        <canvas id="categoryCanvas"></canvas>
-                    </div>
-                </div>
+            <!-- STAFF BOX -->
+            <div class="staff-box" id="staffBox">
+                <div class="staff-box-title">👤 Seleziona un nome → poi premi 💾 Save</div>
+                <div id="staffPills"></div>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>🏆 Top 10 Most Common Diseases</h3>
-                </div>
-                <div class="card-body" id="topDiseasesList">
-                    <div class="empty">
-                        <div class="empty-icon">📈</div>
-                        <h4>No data available</h4>
-                        <p>Visit records will appear here</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>📍 Disease Distribution by Location</h3>
-                </div>
-                <div class="card-body" id="locationDiseaseStats">
-                    <div class="empty">
-                        <div class="empty-icon">🗺️</div>
-                        <h4>No location data</h4>
-                        <p>Location-based statistics will appear here</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>📈 Monthly Disease Trends</h3>
-                </div>
-                <div class="card-body">
-                    <div id="monthlyTrendChart" style="height: 250px; position: relative;">
-                        <canvas id="trendCanvas"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>🔍 Detailed Disease Analysis</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form-field" style="margin-bottom: 16px;">
-                        <label>Select Disease to Analyze</label>
-                        <select id="diseaseAnalysisSelect" onchange="analyzeDisease(this.value)">
-                            <option value="">Choose a disease...</option>
-                        </select>
-                    </div>
-                    <div id="diseaseAnalysisResult" style="display: none;">
-                        <div class="stats-grid" style="margin-bottom: 16px;">
-                            <div class="stat-card" style="border-left: 4px solid var(--primary-500);">
-                                <div class="stat-value" id="analysisTotalCases">0</div>
-                                <div class="stat-label">Total Cases</div>
-                            </div>
-                            <div class="stat-card" style="border-left: 4px solid var(--aqua-500);">
-                                <div class="stat-value" id="analysisLocations">0</div>
-                                <div class="stat-label">Locations Affected</div>
-                            </div>
-                            <div class="stat-card" style="border-left: 4px solid var(--warning);">
-                                <div class="stat-value" id="analysisFirstCase">-</div>
-                                <div class="stat-label">First Recorded</div>
-                            </div>
-                            <div class="stat-card" style="border-left: 4px solid var(--success);">
-                                <div class="stat-value" id="analysisLastCase">-</div>
-                                <div class="stat-label">Most Recent</div>
-                            </div>
-                        </div>
-                        <div id="diseaseLocationBreakdown"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- MOBILE NAVIGATION -->
-    <div class="nav-container">
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('dashboard')">
-                <span class="icon">📊</span>
-                <span>Dashboard</span>
-            </button>
-            <button class="nav-tab" onclick="switchTab('patients')">
-                <span class="icon">👥</span>
-                <span>Patients</span>
-            </button>
-            <button class="nav-tab" onclick="switchTab('visits')">
-                <span class="icon">🏥</span>
-                <span>Visits</span>
-            </button>
-            <button class="nav-tab" onclick="switchTab('births')">
-                <span class="icon">👶</span>
-                <span>Births</span>
-            </button>
-            <button class="nav-tab" onclick="switchTab('deaths')">
-                <span class="icon">⚰️</span>
-                <span>Deaths</span>
-            </button>            <button class="nav-tab" onclick="switchTab('statistics')">
-                <span class="icon">📈</span>
-                <span>Stats</span>
-            </button>
+            <label>Amount (KSh)</label>
+            <input type="number" id="imp" step="0.01" placeholder="0.00" min="0">
+            <label>Date</label>
+            <input type="date" id="dat">
+            <label>Description</label>
+            <textarea id="des" rows="3" placeholder="Transaction description..."></textarea>
+            <button class="btn-save" onclick="salva()">💾 Save Online</button>
         </div>
     </div>
+
+    <!-- LISTA -->
+    <div id="list" class="content">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">📋</div>
+                <div class="card-title">Transaction History</div>
+            </div>
+            <div class="filtro">
+                <button class="filtro-btn active" onclick="setFiltro('',this)">All</button>
+                <button class="filtro-btn" onclick="setFiltro('Lchekuti',this)">📚 Lchekuti</button>
+                <button class="filtro-btn" onclick="setFiltro('Nursery',this)">🍼 Nursery</button>
+                <button class="filtro-btn" onclick="setFiltro('Road',this)">🛣️ Road</button>
+                <button class="filtro-btn" onclick="setFiltro('Health',this)">🏥 Health</button>
+            </div>
+            <div class="divider"></div>
+            <div id="elenco"></div>
+            <button class="btn-reload" onclick="carica()">🔄 Refresh</button>
+        </div>
+    </div>
+</div>
 
 <script>
-    // ===== JSONBIN.IO CONFIGURATION =====
-    const JSONBIN_BIN_ID     = '69c8f0846860e0745bff6903';
-    const JSONBIN_MASTER_KEY = '$2a$10$Z2lQjwDW.9ncUrm8gnE75uG9HdkCoNVsgmitFJCo2/3MAvSoMl8Pu';
-    const JSONBIN_ACCESS_KEY = '$2a$10$5oSWq5Sk/kqlJADg.bRFFe6CNxrSOpxiJN00PmUWDnB1bouxHJswa';
-    const JSONBIN_BASE_URL   = 'https://api.jsonbin.io/v3/b';
-    const LS_DATA_KEY = 'morijo_data'; // local cache
+    const UTENTI = [
+        { email: 'amicipadrealdoodv@gmail.com', password: 'aldovettori', nome: 'Admin' },
+        { email: 'utente2@gmail.com',           password: 'password2',   nome: 'User 2' },
+    ];
 
-    const VALID_USER = 'admin';
-    const VALID_PWD = 'password123';
+    const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/69c7fcb66860e0745bfc268f';
+    const JSONBIN_KEY = '$2a$10$Z2lQjwDW.9ncUrm8gnE75uG9HdkCoNVsgmitFJCo2/3MAvSoMl8Pu';
+    const ICONE = { Lchekuti:'📚', Nursery:'🍼', Road:'🛣️', Health:'🏥' };
 
-    const defaultData = {
-        pazienti: [],
-        visite: [],
-        nascite: [],
-        decessi: [],
-        lastUpdate: null
+    // Staff data by project → location → [name, amount, role]
+    const STAFF = {
+        Lchekuti: {
+            'Nkorika Village': [
+                ['MOSES LENTIIPO', 4000, 'Teacher'], ['SIMON LEWAO', 4000, 'Teacher'],
+                ['LEMAYIAN LENTUMUNAI', 4000, 'Teacher'], ['JAMES LESEEWA', 4000, 'Teacher'],
+                ['MATIBA LETOWON', 4000, 'Teacher'],
+            ],
+            'Soit Pus Village': [
+                ['PAUL LENTUMUNAI', 4000, 'Teacher'], ['MOSES LESUYAI', 4000, 'Teacher'],
+                ['JULIUS LEMETEKI', 4000, 'Teacher'], ['SELINA LETOLUAI', 4000, 'Teacher'],
+            ],
+            'Angata/Nkirenyi Village': [
+                ['THOMAS LELERUK', 4000, 'Teacher'], ['CHARLES LENAIDAMAA', 4000, 'Teacher'],
+                ['PHILIP LEMUNEN', 4000, 'Teacher'], ['SELINA LETOLUAI', 4000, 'Teacher'],
+            ],
+            'Marti Village': [
+                ['JOSEPHINE ALEPER', 4000, 'Teacher'],
+            ],
+            'Morijo Village': [
+                ['JOSEPHINE LEKERIAE', 5500, 'Teacher'], ['JULLIETTA LEKUMATO', 5500, 'Teacher'],
+            ],
+            'Cooks': [
+                ['ESTHER LEKESIKE', 4000, 'Cook'], ['CAROLINA LESIYAMPE', 5000, 'Cook'],
+            ],
+        },
+        Nursery: {
+            'Nkorika Village': [
+                ['RAPHAEL LEPANA', 4000, 'Teacher'], ['DICKSON LEMANTE', 4000, 'Teacher'],
+                ['MICHAEL LETIPILA', 4000, 'Teacher'], ['DAUDI LELESIIT', 4000, 'Teacher'],
+            ],
+            'Soit Pus Village': [
+                ['ISAAC LENKAAK', 4000, 'Teacher'], ['JAMES LEMEIKARI', 4000, 'Teacher'],
+                ['MOSES LENOLGISOI', 4000, 'Teacher'],
+            ],
+            'Angata/Nkirenyi Village': [
+                ['DAVID LENKIDI', 4000, 'Teacher'], ['THOMAS LENTIIPO', 4000, 'Teacher'],
+                ['JACOB LELEEJUK', 4000, 'Teacher'], ['JOHN LEKASUYIAN', 4000, 'Teacher'],
+            ],
+            'Morijo Village': [
+                ['ANYUNI LENTUMUNAI', 4000, 'Teacher'],
+            ],
+            'Cook': [
+                ['MARY MILANDI LENTUMUNAI', 4000, 'Cook'],
+            ],
+        },
+        Health: {
+            'Morijo Health': [
+                ['SARAFINA LETOWON', 4000, 'Laundry'], ['GRACIELLA NTIPANOI', 4000, 'Laundry'],
+                ['LESEYIA MARY', 5000, 'Cleaner'], ['SALIM LENTIMALEI', 45000, 'Nurse'],
+                ['FATHER AMBROSE', 6000, 'Dispensary'],
+            ],
+        },
+        Road: {
+            'Road to the Poors': [
+                ['AGNES LENTUMUNAI', 6000, 'House help'], ['JACKLINE NABIKI LESIRITE', 6000, 'Multi-purpose'],
+                ['LUCY LEKIRIAO', 9000, 'Kitchen'], ['CHRISTINE LELESIIT', 10000, 'Office'],
+                ['MARIANO LENGASAGILE', 5000, 'Office'], ['BONIFACE LESIRITE', 5000, 'Watchman'],
+                ['LUKAS LEKUMATO', 10000, 'Multi-purpose'], ['FATHER AMBROSE', 15000, 'Transportation'],
+            ],
+        },
     };
 
-    let currentUser = null;
-    let allData = { ...defaultData };
-    let syncInterval = null;
-    let isSaving = false;      // lock: don't overwrite while saving
-    let pendingSave = false;   // queue: save again after current save finishes
-
-    // ---- Local cache helpers ----
-    function loadLocalCache() {
-        try {
-            const raw = localStorage.getItem(LS_DATA_KEY);
-            if (raw) return JSON.parse(raw);
-        } catch(e) {}
-        return null;
-    }
-    function saveLocalCache(data) {
-        try { localStorage.setItem(LS_DATA_KEY, JSON.stringify(data)); } catch(e) {}
-    }
-
-    async function loadDataFromJsonBin(showIndicator = true) {
-        // Never overwrite local data while a save is in progress
-        if (isSaving) return false;
-
-        if (showIndicator) showSyncIndicator('syncing', 'Syncing...');
-
-        // Show local cache immediately while fetching online
-        const cached = loadLocalCache();
-        if (cached) { allData = cached; updateAllUI(); }
-
-        try {
-            const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
-                method: 'GET',
-                headers: {
-                    'X-Master-Key': JSONBIN_MASTER_KEY,
-                    'X-Access-Key': JSONBIN_ACCESS_KEY,
-                    'X-Bin-Meta': 'false'
-                }
-            });
-
-            if (response.ok) {
-                if (isSaving) return false; // save started while waiting - abort
-                const result = await response.json();
-                const newData = result.record || result || defaultData;
-                if (!newData.pazienti) newData.pazienti = [];
-                if (!newData.visite)   newData.visite   = [];
-                if (!newData.nascite)  newData.nascite  = [];
-                if (!newData.decessi)  newData.decessi  = [];
-                console.log('[JSONBin] Loaded:', newData.pazienti.length, 'pazienti,', newData.visite.length, 'visite');
-                allData = newData;
-                saveLocalCache(allData);
-                updateAllUI();
-                if (showIndicator) showSyncIndicator('synced', 'Online!');
-                updateSyncStatus(true);
-                return true;
-            }
-        } catch (e) {
-            console.log('Sync error:', e);
-            if (showIndicator) showSyncIndicator('error', 'Offline');
-        }
-
-        updateSyncStatus(false);
-        return false;
-    }
-
-    async function saveDataToJsonBin() {
-        // If already saving, queue another save for after
-        if (isSaving) {
-            pendingSave = true;
-            return false;
-        }
-
-        isSaving = true;
-        pendingSave = false;
-        showSyncIndicator('syncing', 'Saving...');
-        allData.lastUpdate = new Date().toISOString();
-
-        // Always save locally first
-        saveLocalCache(allData);
-
-        // Snapshot data to send (so concurrent changes don't corrupt it)
-        const dataToSend = JSON.parse(JSON.stringify(allData));
-
-        try {
-            const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': JSONBIN_MASTER_KEY,
-                    'X-Access-Key': JSONBIN_ACCESS_KEY
-                },
-                body: JSON.stringify(dataToSend)
-            });
-
-            if (response.ok) {
-                updateSyncStatus(true);
-                showSyncIndicator('synced', 'Saved!');
-                isSaving = false;
-                if (pendingSave) saveDataToJsonBin(); // flush queued save
-                return true;
-            } else {
-                const txt = await response.text();
-                console.error('[JSONBin] Save FAILED:', response.status, txt);
-                showSyncIndicator('error', 'Error ' + response.status);
-            }
-        } catch (e) {
-            console.error('[JSONBin] Save error:', e);
-            showSyncIndicator('error', 'Network error');
-        }
-
-        isSaving = false;
-        updateSyncStatus(false);
-        return false;
-    }
-
-    async function testJsonBinConnection() {
-        console.log('[JSONBin] Testing connection...');
-        console.log('[JSONBin] BIN ID:', JSONBIN_BIN_ID);
-        console.log('[JSONBin] KEY starts with:', JSONBIN_MASTER_KEY.substring(0, 10) + '...');
-        try {
-            const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
-                method: 'GET',
-                headers: {
-                    'X-Master-Key': JSONBIN_MASTER_KEY,
-                    'X-Access-Key': JSONBIN_ACCESS_KEY,
-                    'X-Bin-Meta': 'false'
-                }
-            });
-            const body = await response.text();
-            console.log('[JSONBin] GET status:', response.status);
-            console.log('[JSONBin] GET body:', body.substring(0, 200));
-            if (response.ok) {
-                msg('✅ JSONBin connected! Bin ID OK.', 'success');
-            } else {
-                msg('❌ JSONBin error: ' + response.status + ' - check console (F12)', 'err');
-            }
-        } catch(e) {
-            console.error('[JSONBin] Connection test FAILED:', e);
-            msg('❌ Network error - check console (F12)', 'err');
-        }
-    }
-
-    function updateSyncStatus(synced) {
-        const status = document.getElementById('syncStatus');
-        if (synced) {
-            status.innerHTML = '<span style="color:var(--success)">●</span> online';
-            status.classList.add('synced');
-        } else {
-            status.textContent = '● offline';
-            status.classList.remove('synced');
-        }
-    }
-
-    function showSyncIndicator(type, text) {
-        const indicator = document.getElementById('syncIndicator');
-        const textEl = document.getElementById('syncText');
-        if (!indicator || !textEl) return;
-        
-        indicator.className = `sync-indicator show ${type}`;
-        textEl.textContent = text;
-        
-        if (type === 'synced') {
-            setTimeout(() => {
-                indicator.classList.remove('show');
-            }, 2000);
-        }
-    }
-
-    function startRealtimeSync() {
-        syncInterval = setInterval(() => {
-            if (currentUser) loadDataFromJsonBin(false);
-        }, 5000);
-    }
-
-    function stopRealtimeSync() {
-        if (syncInterval) clearInterval(syncInterval);
-    }
-
-    function getPazienti() { return allData.pazienti || []; }
-    function setPazienti(p) { allData.pazienti = p; saveLocalCache(allData); saveDataToJsonBin(); }
-
-    function getVisite() { return allData.visite || []; }
-    function setVisite(v) { allData.visite = v; saveLocalCache(allData); saveDataToJsonBin(); }
-
-    function getNascite() { return allData.nascite || []; }
-    function setNascite(n) { allData.nascite = n; saveLocalCache(allData); saveDataToJsonBin(); }
-
-    function getDecessi() { return allData.decessi || []; }
-    function setDecessi(d) { allData.decessi = d; saveLocalCache(allData); saveDataToJsonBin(); }
-
-    function msg(text, type = 'success') {
-        const box = document.createElement('div');
-        box.className = `msg-box ${type}`;
-        
-        const icons = { success: '✓', err: '✕', info: 'ℹ', warning: '⚠' };
-        box.innerHTML = `<span style="font-size:1.1rem">${icons[type] || '•'}</span><span>${text}</span>`;
-        
-        document.body.appendChild(box);
-        setTimeout(() => box.remove(), 3000);
-    }
-
-    function switchTab(tab) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-        
-        document.getElementById(tab).classList.add('active');
-        event.currentTarget.classList.add('active');
-        
-        if (tab === 'visits') aggiornaPazientiSelects();
-        if (tab === 'births') aggiornaMadriSelects();
-        if (tab === 'deaths') aggiornaPazientiDeathSelects();
-        
-        window.scrollTo(0, 0);
-    }
-
-    function updateAllUI() {
-        aggiornaDashboard();
-        renderListaPazienti();
-        renderListaVisite();
-        renderListaNascite();
-        renderListaDecessi();
-        aggiornaRecentActivity();
-    }
-
-    function aggiornaRecentActivity() {
-        const container = document.getElementById('recentActivity');
-        const allItems = [
-            ...getVisite().map(v => ({ ...v, type: 'visit', date: v.data })),
-            ...getNascite().map(n => ({ ...n, type: 'birth', date: n.data })),
-            ...getDecessi().map(d => ({ ...d, type: 'death', date: d.data }))
-        ].sort((a, b) => new Date(b.timestamp || b.id) - new Date(a.timestamp || a.id)).slice(0, 5);
-
-        if (allItems.length === 0) {
-            container.innerHTML = `
-                <div class="empty">
-                    <div class="empty-icon">📋</div>
-                    <h4>No recent activity</h4>
-                    <p>Data will appear here as records are added</p>
-                </div>`;
+    function staffUpdate() {
+        const prog = document.getElementById('prog').value;
+        const tipoEl = document.querySelector('input[name="tipo"]:checked');
+        const box = document.getElementById('staffBox');
+        const pills = document.getElementById('staffPills');
+        if (!prog || !tipoEl || tipoEl.value !== 'Expense' || !STAFF[prog]) {
+            box.classList.remove('show');
             return;
         }
-
-        container.innerHTML = allItems.map(item => {
-            const icons = { visit: '🏥', birth: '👶', death: '⚰️' };
-            const colors = { visit: 'blue', birth: 'green', death: 'red' };
-            const labels = { visit: 'Visit', birth: 'Birth', death: 'Death' };
-            
-            let title = item.pazienteNome || item.madreNome || 'Unknown';
-            let subtitle = '';
-            
-            if (item.type === 'visit') subtitle = item.disease || item.tipo;
-            if (item.type === 'birth') subtitle = `${item.sesso === 'M' ? 'Male' : 'Female'} infant`;
-            if (item.type === 'death') subtitle = item.causa;
-            
-            return `
-            <div class="list-item ${colors[item.type]}" style="padding:12px 16px;">
-                <div style="font-size:1.4rem">${icons[item.type]}</div>
-                <div class="list-content">
-                    <div class="list-title" style="font-size:0.9rem;margin:0;">
-                        ${title}
-                        <span class="badge badge-${colors[item.type]}">${labels[item.type]}</span>
-                    </div>
-                    <div class="list-meta" style="font-size:0.8rem;">
-                        ${subtitle || ''}</div>
+        const locs = STAFF[prog];
+        pills.innerHTML = Object.entries(locs).map(([loc, members]) => `
+            <div class="loc-group">
+                <div class="loc-label">📍 ${loc}</div>
+                <div class="pills">
+                    ${members.map(([n,a,r]) => `<div class="pill" data-name="${n}" data-amount="${a}" data-role="${r}" onclick="fillStaff(this)">${n}</div>`).join('')}
                 </div>
-                <div style="font-size:0.75rem;color:var(--gray-400);">${item.location || 'Unknown location'}</div>
-            </div>`;
-        }).join('');
+            </div>`).join('');
+        box.classList.add('show');
     }
 
-    function aggiornaDashboard() {
-        const pazienti = getPazienti();
-        const visite = getVisite();
-        const nascite = getNascite();
-        const decessi = getDecessi();
-
-        document.getElementById('statPazienti').textContent = pazienti.length;
-        document.getElementById('statNascite').textContent = nascite.length;
-        document.getElementById('statDecessi').textContent = decessi.length;
-
-        const oggi = new Date().toISOString().split('T')[0];
-        const visiteOggi = visite.filter(v => v.data === oggi).length;
-        document.getElementById('statVisite').textContent = visiteOggi;
-
-        // Update location stats
-        const locations = ['Morijo', 'Angata', 'Marti', 'Ngorika'];
-        const locationStats = locations.map(loc => {
-            const p = pazienti.filter(x => x.location === loc).length;
-            const v = visite.filter(x => x.location === loc).length;
-            return { name: loc, patients: p, visits: v };
-        });
-
-        document.getElementById('locationStats').innerHTML = locationStats.map(loc => `
-            <div class="location-card">
-                <div class="location-name">${loc.name}</div>
-                <div class="location-stats">${loc.patients} patients • ${loc.visits} visits</div>
-            </div>
-        `).join('');
+    function fillStaff(el) {
+        const name   = el.dataset.name;
+        const amount = el.dataset.amount;
+        const role   = el.dataset.role;
+        // Highlight selected
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+        el.classList.add('selected');
+        // Fill form
+        document.getElementById('imp').value = amount;
+        document.getElementById('des').value = 'Staff payment – ' + name + ' (' + role + ')';
+        document.querySelector('.btn-save').scrollIntoView({ behavior:'smooth', block:'center' });
     }
 
-    function aggiornaPazientiSelects() {
-        const pazienti = getPazienti();
-        const options = pazienti.map(p => `<option value="${p.id}">${p.cognome} ${p.nome}</option>`).join('');
-        document.getElementById('vPaziente').innerHTML = '<option value="">Select patient</option>' + options;
-    }
-
-    function aggiornaMadriSelects() {
-        const pazienti = getPazienti().filter(p => p.sesso === 'F' || !p.sesso);
-        const options = pazienti.map(p => `<option value="${p.id}">${p.cognome} ${p.nome}</option>`).join('');
-        document.getElementById('mMadre').innerHTML = '<option value="">Select mother</option>' + options;
-    }
-
-    function aggiornaPazientiDeathSelects() {
-        const pazienti = getPazienti();
-        const options = pazienti.map(p => `<option value="${p.id}">${p.cognome} ${p.nome}</option>`).join('');
-        document.getElementById('dPaziente').innerHTML = '<option value="">Select patient</option>' + options;
-    }
-
-    function renderListaPazienti() {
-        const pazienti = getPazienti();
-        const container = document.getElementById('listaPazienti');
-
-        if (pazienti.length === 0) {
-            container.innerHTML = `
-                <div class="empty">
-                    <div class="empty-icon">👥</div>
-                    <h4>No patients recorded</h4>
-                    <p>Add your first patient using the form above</p>
-                </div>`;
-            return;
-        }
-
-        container.innerHTML = pazienti.slice().reverse().map(p => `
-            <div class="list-item blue">
-                <div class="list-content">
-                    <div class="list-title">
-                        ${p.cognome} ${p.nome}
-                        <span class="badge badge-primary">${p.location || 'Unknown'}</span>
-                    </div>
-                    <div class="list-meta">
-                        Age: ${p.eta || 'N/A'} years
-                        ${p.note ? '• ' + p.note.substring(0, 50) + (p.note.length > 50 ? '...' : '') : ''}
-                    </div>
-                </div>
-                <div class="list-actions">
-                    <button class="btn btn-danger" onclick="eliminaPaziente('${p.id}')">Delete</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function renderListaVisite() {
-        const visite = getVisite();
-        const pazienti = getPazienti();
-        const container = document.getElementById('listaVisite');
-
-        if (visite.length === 0) {
-            container.innerHTML = `
-                <div class="empty">
-                    <div class="empty-icon">🏥</div>
-                    <h4>No visits recorded</h4>
-                    <p>Register a medical visit using the form above</p>
-                </div>`;
-            return;
-        }
-
-        container.innerHTML = visite.slice().reverse().map(v => {
-            const paziente = pazienti.find(p => p.id === v.pazienteId);
-            const nome = paziente ? `${paziente.cognome} ${paziente.nome}` : 'Unknown';
-
-            return `
-            <div class="list-item teal">
-                <div class="list-content">
-                    <div class="list-title">
-                        ${nome}
-                        <span class="badge badge-teal">${v.tipo}</span>
-                        <span class="badge badge-primary">${v.location || 'Unknown'}</span>
-                    </div>
-                    <div class="list-meta">
-                        <strong>${v.disease || 'No diagnosis'}</strong> • ${new Date(v.data).toLocaleDateString()}
-                        ${v.note ? '<br>' + v.note.substring(0, 80) + (v.note.length > 80 ? '...' : '') : ''}
-                    </div>
-                </div>
-                <div class="list-actions">
-                    <button class="btn btn-danger" onclick="eliminaVisita('${v.id}')">Delete</button>
-                </div>
-            </div>`;
-        }).join('');
-    }
-
-    function renderListaNascite() {
-        const nascite = getNascite();
-        const pazienti = getPazienti();
-        const container = document.getElementById('listaNascite');
-
-        if (nascite.length === 0) {
-            container.innerHTML = `
-                <div class="empty">
-                    <div class="empty-icon">👶</div>
-                    <h4>No births recorded</h4>
-                    <p>Register a birth using the form above</p>
-                </div>`;
-            return;
-        }
-
-        container.innerHTML = nascite.slice().reverse().map(n => {
-            const madre = pazienti.find(p => p.id === n.madreId);
-            const nomeMadre = madre ? `${madre.cognome} ${madre.nome}` : 'Unknown';
-
-            return `
-            <div class="list-item green">
-                <div class="list-content">
-                    <div class="list-title">
-                        👶 ${n.sesso === 'M' ? 'Male' : 'Female'} Infant
-                        <span class="badge badge-success">${n.location || 'Unknown'}</span>
-                    </div>
-                    <div class="list-meta">
-                        Mother: ${nomeMadre} • ${new Date(n.data).toLocaleDateString()}
-                        ${n.peso ? `• Weight: ${n.peso}kg` : ''}
-                        ${n.apgar ? `• APGAR: ${n.apgar}` : ''}
-                        ${n.note ? '<br>' + n.note.substring(0, 80) + (n.note.length > 80 ? '...' : '') : ''}
-                    </div>
-                </div>
-                <div class="list-actions">
-                    <button class="btn btn-danger" onclick="eliminaNascita('${n.id}')">Delete</button>
-                </div>
-            </div>`;
-        }).join('');
-    }
-
-    function renderListaDecessi() {
-        const decessi = getDecessi();
-        const pazienti = getPazienti();
-        const container = document.getElementById('listaDecessi');
-
-        if (decessi.length === 0) {
-            container.innerHTML = `
-                <div class="empty">
-                    <div class="empty-icon">⚰️</div>
-                    <h4>No deaths recorded</h4>
-                    <p>Register a death using the form above</p>
-                </div>`;
-            return;
-        }
-
-        container.innerHTML = decessi.slice().reverse().map(d => {
-            const paziente = pazienti.find(p => p.id === d.pazienteId);
-            const nome = paziente ? `${paziente.cognome} ${paziente.nome}` : 'Unknown';
-
-            return `
-            <div class="list-item red">
-                <div class="list-content">
-                    <div class="list-title">
-                        ${nome}
-                        <span class="badge badge-danger">${d.location || 'Unknown'}</span>
-                    </div>
-                    <div class="list-meta">
-                        <strong>Cause: ${d.causa || 'Unknown'}</strong> • ${new Date(d.data).toLocaleDateString()}
-                        ${d.note ? '<br>' + d.note.substring(0, 80) + (d.note.length > 80 ? '...' : '') : ''}
-                    </div>
-                </div>
-                <div class="list-actions">
-                    <button class="btn btn-danger" onclick="eliminaDecesso('${d.id}')">Delete</button>
-                </div>
-            </div>`;
-        }).join('');
-    }
-
-    function salvaPaziente() {
-        const nome = document.getElementById('pNome').value.trim();
-        const cognome = document.getElementById('pCognome').value.trim();
-        const eta = document.getElementById('pEta').value;
-        const location = document.getElementById('pLocation').value;
-        const note = document.getElementById('pNote').value.trim();
-
-        if (!nome || !cognome || !location) {
-            msg('Please fill in all required fields', 'err');
-            return;
-        }
-
-        const paziente = {
-            id: Date.now().toString(),
-            nome,
-            cognome,
-            eta: eta || null,
-            location,
-            note,
-            timestamp: new Date().toISOString()
-        };
-
-        setPazienti([...getPazienti(), paziente]);
-
-        document.getElementById('pNome').value = '';
-        document.getElementById('pCognome').value = '';
-        document.getElementById('pEta').value = '';
-        document.getElementById('pLocation').value = '';
-        document.getElementById('pNote').value = '';
-
-        renderListaPazienti();
-        aggiornaDashboard();
-        msg('Patient added successfully');
-    }
-
-    function eliminaPaziente(id) {
-        if (!confirm('Are you sure you want to delete this patient?')) return;
-        setPazienti(getPazienti().filter(p => p.id !== id));
-        renderListaPazienti();
-        aggiornaDashboard();
-        msg('Patient deleted');
-    }
-
-    function salvaVisita() {
-        const data = document.getElementById('vData').value;
-        const pazienteId = document.getElementById('vPaziente').value;
-        const location = document.getElementById('vLocation').value;
-        const tipo = document.getElementById('vTipo').value;
-        const disease = document.getElementById('vDisease').value;
-        const note = document.getElementById('vNote').value.trim();
-
-        if (!data || !pazienteId || !location || !tipo || !disease) {
-            msg('Please fill in all required fields', 'err');
-            return;
-        }
-
-        const paziente = getPazienti().find(p => p.id === pazienteId);
-        const pazienteNome = paziente ? `${paziente.cognome} ${paziente.nome}` : 'Unknown';
-
-        const visita = {
-            id: Date.now().toString(),
-            data,
-            pazienteId,
-            pazienteNome,
-            location,
-            tipo,
-            disease,
-            note,
-            timestamp: new Date().toISOString()
-        };
-
-        setVisite([...getVisite(), visita]);
-
-        document.getElementById('vData').value = '';
-        document.getElementById('vPaziente').value = '';
-        document.getElementById('vLocation').value = '';
-        document.getElementById('vTipo').value = '';
-        document.getElementById('vDisease').value = '';
-        document.getElementById('vNote').value = '';
-
-        renderListaVisite();
-        aggiornaDashboard();
-        aggiornaRecentActivity();
-        msg('Visit registered successfully');
-    }
-
-    function eliminaVisita(id) {
-        if (!confirm('Are you sure you want to delete this visit?')) return;
-        setVisite(getVisite().filter(v => v.id !== id));
-        renderListaVisite();
-        aggiornaDashboard();
-        msg('Visit deleted');
-    }
-
-    function salvaNascita() {
-        const data = document.getElementById('mData').value;
-        const madreId = document.getElementById('mMadre').value;
-        const location = document.getElementById('mLocation').value;
-        const sesso = document.getElementById('mSesso').value;
-        const peso = document.getElementById('mPeso').value;
-        const apgar = document.getElementById('mApgar').value;
-        const note = document.getElementById('mNote').value.trim();
-
-        if (!data || !madreId || !location || !sesso) {
-            msg('Please fill in all required fields', 'err');
-            return;
-        }
-
-        const madre = getPazienti().find(p => p.id === madreId);
-        const madreNome = madre ? `${madre.cognome} ${madre.nome}` : 'Unknown';
-
-        const nascita = {
-            id: Date.now().toString(),
-            data,
-            madreId,
-            madreNome,
-            location,
-            sesso,
-            peso: peso || null,
-            apgar: apgar || null,
-            note,
-            timestamp: new Date().toISOString()
-        };
-
-        setNascite([...getNascite(), nascita]);
-
-        document.getElementById('mData').value = '';
-        document.getElementById('mMadre').value = '';
-        document.getElementById('mLocation').value = '';
-        document.getElementById('mSesso').value = '';
-        document.getElementById('mPeso').value = '';
-        document.getElementById('mApgar').value = '';
-        document.getElementById('mNote').value = '';
-
-        renderListaNascite();
-        aggiornaDashboard();
-        aggiornaRecentActivity();
-        msg('Birth registered successfully');
-    }
-
-    function eliminaNascita(id) {
-        if (!confirm('Are you sure you want to delete this birth record?')) return;
-        setNascite(getNascite().filter(n => n.id !== id));
-        renderListaNascite();
-        aggiornaDashboard();
-        msg('Birth record deleted');
-    }
-
-    function salvaDecesso() {
-        const data = document.getElementById('dData').value;
-        const pazienteId = document.getElementById('dPaziente').value;
-        const location = document.getElementById('dLocation').value;
-        const causa = document.getElementById('dCausa').value;
-        const note = document.getElementById('dNote').value.trim();
-
-        if (!data || !pazienteId || !location || !causa) {
-            msg('Please fill in all required fields', 'err');
-            return;
-        }
-
-        const paziente = getPazienti().find(p => p.id === pazienteId);
-        const pazienteNome = paziente ? `${paziente.cognome} ${paziente.nome}` : 'Unknown';
-
-        const decesso = {
-            id: Date.now().toString(),
-            data,
-            pazienteId,
-            pazienteNome,
-            location,
-            causa,
-            note,
-            timestamp: new Date().toISOString()
-        };
-
-        setDecessi([...getDecessi(), decesso]);
-
-        document.getElementById('dData').value = '';
-        document.getElementById('dPaziente').value = '';
-        document.getElementById('dLocation').value = '';
-        document.getElementById('dCausa').value = '';
-        document.getElementById('dNote').value = '';
-
-        renderListaDecessi();
-        aggiornaDashboard();
-        aggiornaRecentActivity();
-        msg('Death registered successfully');
-    }
-
-    function eliminaDecesso(id) {
-        if (!confirm('Are you sure you want to delete this death record?')) return;
-        setDecessi(getDecessi().filter(d => d.id !== id));
-        renderListaDecessi();
-        aggiornaDashboard();
-        msg('Death record deleted');
-    }
+    let dati = [], filtroAttivo = '', utenteCorrente = null;
 
     function accedi() {
-        const user = document.getElementById('user').value.trim();
-        const pwd = document.getElementById('pwd').value;
-        const err = document.getElementById('loginErr');
-
-        if (user === VALID_USER && pwd === VALID_PWD) {
-            currentUser = user;
-            document.getElementById('login').classList.add('hidden');
-            document.getElementById('mainContent').classList.add('active');
-            document.querySelector('.nav-container').style.display = 'block';
-
-            testJsonBinConnection();
-            loadDataFromJsonBin();
-            startRealtimeSync();
-
-            msg('Welcome to Morijo Health', 'success');
-        } else {
-            err.textContent = 'Invalid username or password';
+        const email = document.getElementById('user').value.trim().toLowerCase();
+        const pass  = document.getElementById('pass').value;
+        const utente = UTENTI.find(u => u.email.toLowerCase() === email && u.password === pass);
+        if (!utente) {
+            const err = document.getElementById('loginErr');
             err.classList.add('show');
             setTimeout(() => err.classList.remove('show'), 3000);
+            return;
         }
+        utenteCorrente = utente;
+        document.getElementById('utenteLabel').textContent = '👤 ' + utente.nome;
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('header').classList.remove('hidden');
+        document.getElementById('barraTot').classList.remove('hidden');
+        document.getElementById('app').classList.add('active');
+        document.getElementById('dat').valueAsDate = new Date();
+        carica();
     }
 
-    function esci() {
-        if (!confirm('Are you sure you want to logout?')) return;
-
-        stopRealtimeSync();
-        currentUser = null;
-
-        document.getElementById('login').classList.remove('hidden');
-        document.getElementById('mainContent').classList.remove('active');
-        document.querySelector('.nav-container').style.display = 'none';
-        document.getElementById('user').value = '';
-        document.getElementById('pwd').value = '';
-
-        msg('Logged out successfully', 'info');
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.nav-container').style.display = 'none';
-
-        // Set today's date as default for date inputs
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('vData').value = today;
-        document.getElementById('mData').value = today;
-        document.getElementById('dData').value = today;
-
-        // Enter key on login
-        document.getElementById('pwd').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') accedi();
-        });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !document.getElementById('login').classList.contains('hidden')) accedi();
     });
 
-    // ===== DISEASE STATISTICS FUNCTIONS =====
+    function esci() { location.reload(); }
 
-    const diseaseCategories = {
-        'Infectious & Parasitic Diseases': ['Malaria', 'Typhoid Fever', 'Cholera', 'Tuberculosis (TB)', 'HIV/AIDS', 'Measles', 'Hepatitis A', 'Hepatitis B', 'Hepatitis C', 'Dengue Fever', 'Yellow Fever', 'Meningitis', 'Pneumonia', 'COVID-19', 'Influenza', 'Chickenpox', 'Tetanus', 'Whooping Cough', 'Diphtheria', 'Polio', 'Rabies', 'Leprosy', 'Schistosomiasis', 'Intestinal Worms', 'Diarrheal Disease', 'Upper Respiratory Infection', 'Skin Infection', 'Eye Infection', 'Ear Infection', 'Urinary Tract Infection'],
-        'Maternal & Neonatal': ['Pregnancy - Normal', 'Pregnancy - High Risk', 'Anemia in Pregnancy', 'Preeclampsia', 'Eclampsia', 'Postpartum Hemorrhage', 'Preterm Labor', 'Obstructed Labor', 'Newborn Jaundice', 'Low Birth Weight', 'Neonatal Sepsis', 'Birth Asphyxia', 'Congenital Abnormalities'],
-        'Nutritional & Metabolic': ['Severe Acute Malnutrition', 'Moderate Acute Malnutrition', 'Vitamin A Deficiency', 'Iron Deficiency Anemia', 'Iodine Deficiency', 'Rickets', 'Scurvy', 'Diabetes Type 1', 'Diabetes Type 2', 'Diabetes - Gestational', 'Hypoglycemia', 'Hyperglycemia', 'Dehydration', 'Electrolyte Imbalance'],
-        'Cardiovascular': ['Hypertension', 'Hypertensive Heart Disease', 'Heart Failure', 'Rheumatic Heart Disease', 'Ischemic Heart Disease', 'Arrhythmia', 'Stroke', 'Deep Vein Thrombosis', 'Anemia - General', 'Sickle Cell Disease'],
-        'Respiratory': ['Asthma', 'Chronic Obstructive Pulmonary Disease', 'Bronchitis', 'Tonsillitis', 'Sinusitis', 'Pleural Effusion', 'Hemoptysis'],
-        'Gastrointestinal': ['Gastroenteritis', 'Peptic Ulcer Disease', 'Gastritis', 'Appendicitis', 'Intestinal Obstruction', 'Hernia', 'Hemorrhoids', 'Liver Disease', 'Cirrhosis', 'Hepatomegaly', 'Splenomegaly', 'Abdominal Pain - Unspecified'],
-        'Genitourinary': ['Kidney Disease', 'Acute Kidney Injury', 'Chronic Kidney Disease', 'Nephrotic Syndrome', 'Kidney Stones', 'Prostate Disease', 'Sexually Transmitted Infection', 'Pelvic Inflammatory Disease', 'Cervical Dysplasia', 'Breast Mass', 'Vaginal Discharge', 'Dysmenorrhea', 'Menorrhagia', 'Infertility'],
-        'Neurological & Mental': ['Epilepsy', 'Seizure Disorder', 'Headache - Tension', 'Headache - Migraine', 'Meningitis - Bacterial', 'Meningitis - Viral', 'Depression', 'Anxiety Disorder', 'Psychosis', 'Substance Abuse', 'Developmental Delay', 'Cerebral Palsy', 'Hydrocephalus'],
-        'Musculoskeletal': ['Arthritis', 'Osteoarthritis', 'Rheumatoid Arthritis', 'Gout', 'Back Pain', 'Joint Pain', 'Muscle Pain', 'Fracture', 'Dislocation', 'Sprain/Strain', 'Osteomyelitis'],
-        'Skin & Eye': ['Eczema', 'Dermatitis', 'Scabies', 'Tinea (Ringworm)', 'Impetigo', 'Cellulitis', 'Abscess', 'Burns', 'Conjunctivitis', 'Cataract', 'Trachoma', 'Glaucoma', 'Dental Caries', 'Gingivitis'],
-        'Cancers & Tumors': ['Cervical Cancer', 'Breast Cancer', 'Prostate Cancer', 'Kaposi Sarcoma', 'Lymphoma', 'Leukemia', 'Liver Cancer', 'Colorectal Cancer', 'Lung Cancer', 'Skin Cancer', 'Unspecified Mass/Tumor'],
-        'Injuries & Trauma': ['Road Traffic Accident', 'Fall Injury', 'Cut/Wound', 'Animal Bite', 'Snake Bite', 'Insect Bite', 'Burn - Thermal', 'Burn - Chemical', 'Drowning/Near Drowning', 'Poisoning', 'Foreign Body', 'Head Injury', 'Spinal Injury', 'Chest Injury', 'Abdominal Injury'],
-        'Other/General': ['Fever - Unspecified', 'Pain - Unspecified', 'Cough', 'Dyspnea', 'Edema', 'Weight Loss', 'Failure to Thrive', 'Well Child Visit', 'Family Planning', 'Immunization', 'Health Education', 'Other - Specify in Notes']
-    };
-
-    function getDiseaseCategory(disease) {
-        for (const [category, diseases] of Object.entries(diseaseCategories)) {
-            if (diseases.includes(disease)) return category;
-        }
-        return 'Other/General';
+    function tab(id, btn) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
     }
 
-    function aggiornaStatistiche() {
-        const visite = getVisite();
+    function setFiltro(val, btn) {
+        filtroAttivo = val;
+        document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderLista();
+    }
 
-        // Basic stats
-        document.getElementById('statTotalDiseases').textContent = visite.length;
+    async function salva() {
+        const prog   = document.getElementById('prog').value;
+        const tipoEl = document.querySelector('input[name="tipo"]:checked');
+        const imp    = parseFloat(document.getElementById('imp').value);
+        const dat    = document.getElementById('dat').value;
+        const des    = document.getElementById('des').value.trim();
+        if (!prog || !tipoEl || isNaN(imp) || imp <= 0 || !dat || !des) {
+            messaggio('⚠️ Please fill in all fields correctly.', 'err'); return;
+        }
+        mostraLoading('Saving online...');
+        const nuovo = { id: Date.now(), progetto: prog, tipo: tipoEl.value, importo: imp, data: dat, descrizione: des, autore: utenteCorrente.nome, timestamp: new Date().toISOString() };
+        try {
+            const getRes = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
+            if (!getRes.ok) throw new Error('Read error');
+            const getData = await getRes.json();
+            const lista = getData.record?.transazioni || [];
+            lista.push(nuovo);
+            const putRes = await fetch(JSONBIN_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY }, body: JSON.stringify({ transazioni: lista }) });
+            if (!putRes.ok) throw new Error('Save error');
+            dati = lista;
+            dati.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            aggiorna();
+            document.getElementById('prog').value = '';
+            document.querySelectorAll('input[name="tipo"]').forEach(r => r.checked = false);
+            document.getElementById('imp').value = '';
+            document.getElementById('dat').valueAsDate = new Date();
+            document.getElementById('des').value = '';
+            document.getElementById('staffBox').classList.remove('show');
+            messaggio('✅ Saved online successfully!', 'ok');
+            tab('list', document.querySelectorAll('.tab')[2]);
+            setOnline(true);
+        } catch (err) { messaggio('❌ Error: ' + err.message, 'err'); setOnline(false); }
+        finally { nascondiLoading(); }
+    }
 
-        // Count unique diseases
-        const diseaseCounts = {};
-        visite.forEach(v => {
-            if (v.disease) {
-                diseaseCounts[v.disease] = (diseaseCounts[v.disease] || 0) + 1;
-            }
+    async function elimina(id) {
+        if (!confirm('Delete this transaction?')) return;
+        mostraLoading('Deleting...');
+        try {
+            const getRes = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
+            const getData = await getRes.json();
+            const lista = (getData.record?.transazioni || []).filter(t => t.id !== id);
+            const putRes = await fetch(JSONBIN_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY }, body: JSON.stringify({ transazioni: lista }) });
+            if (!putRes.ok) throw new Error('Delete error');
+            dati = lista;
+            aggiorna();
+            messaggio('🗑️ Transaction deleted.', 'ok');
+        } catch (err) { messaggio('❌ Error: ' + err.message, 'err'); }
+        finally { nascondiLoading(); }
+    }
+
+    async function carica() {
+        mostraLoading('Loading data...');
+        try {
+            const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
+            if (!res.ok) throw new Error('Server unreachable');
+            const json = await res.json();
+            dati = json.record?.transazioni || [];
+            dati.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            aggiorna();
+            setOnline(true);
+        } catch (e) { messaggio('❌ ' + e.message, 'err'); setOnline(false); }
+        finally { nascondiLoading(); }
+    }
+
+    function aggiorna() {
+        let ent = 0, usc = 0;
+        dati.forEach(t => t.tipo === 'Income' ? ent += t.importo : usc += t.importo);
+        const saldo = ent - usc;
+        const fmt = n => 'KSh ' + n.toLocaleString('en-US');
+
+        document.getElementById('tEnt').textContent = fmt(ent);
+        document.getElementById('hEnt').textContent = fmt(ent);
+        document.getElementById('tUsc').textContent = fmt(usc);
+        document.getElementById('hUsc').textContent = fmt(usc);
+        document.getElementById('tNum').textContent = dati.length;
+
+        ['tSal','hSal'].forEach(id => {
+            const el = document.getElementById(id);
+            el.textContent = fmt(saldo);
+            const base = id === 'tSal' ? 'tot-value' : 'val';
+            el.className = base + (saldo >= 0 ? ' green' : ' red');
         });
 
-        const uniqueDiseases = Object.keys(diseaseCounts);
-        document.getElementById('statUniqueDiseases').textContent = uniqueDiseases.length;
+        const progetti = {};
+        dati.forEach(t => {
+            if (!progetti[t.progetto]) progetti[t.progetto] = { ent: 0, usc: 0 };
+            t.tipo === 'Income' ? progetti[t.progetto].ent += t.importo : progetti[t.progetto].usc += t.importo;
+        });
 
-        // Top disease
-        if (uniqueDiseases.length > 0) {
-            const topDisease = Object.entries(diseaseCounts)
-                .sort((a, b) => b[1] - a[1])[0];
-            document.getElementById('statTopDisease').textContent = topDisease[0];
-            document.getElementById('statTopDisease').style.fontSize = '1.2rem';
+        const rpEl = document.getElementById('riepilogoProgetti');
+        if (!Object.keys(progetti).length) {
+            rpEl.innerHTML = '<div class="empty"><div class="empty-icon">📂</div>No data available.</div>';
         } else {
-            document.getElementById('statTopDisease').textContent = '-';
-        }
-
-        // This month
-        const now = new Date();
-        const thisMonth = visite.filter(v => {
-            const d = new Date(v.data);
-            return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-        }).length;
-        document.getElementById('statThisMonth').textContent = thisMonth;
-
-        // Update charts
-        drawCategoryChart(visite);
-        renderTopDiseases(diseaseCounts);
-        renderLocationDiseaseStats(visite);
-        drawMonthlyTrend(visite);
-        populateDiseaseSelect(uniqueDiseases);
-    }
-
-    function drawCategoryChart(visite) {
-        const categoryCounts = {};
-        visite.forEach(v => {
-            if (v.disease) {
-                const cat = getDiseaseCategory(v.disease);
-                categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-            }
-        });
-
-        const canvas = document.getElementById('categoryCanvas');
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        const container = canvas.parentElement;
-        canvas.width = container.offsetWidth;
-        canvas.height = container.offsetHeight;
-
-        const data = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
-        if (data.length === 0) {
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '14px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText('No data available', canvas.width / 2, canvas.height / 2);
-            return;
-        }
-
-        const colors = ['#3a9bd5', '#26c6da', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#6366f1'];
-        const total = data.reduce((sum, [, count]) => sum + count, 0);
-
-        // Draw horizontal bar chart
-        const barHeight = 30;
-        const gap = 10;
-        const maxBarWidth = canvas.width - 200;
-        const maxCount = Math.max(...data.map(([, count]) => count));
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        data.slice(0, 8).forEach(([category, count], i) => {
-            const y = i * (barHeight + gap) + 20;
-            const barWidth = (count / maxCount) * maxBarWidth;
-            const percentage = ((count / total) * 100).toFixed(1);
-
-            // Bar
-            ctx.fillStyle = colors[i % colors.length];
-            ctx.fillRect(140, y, barWidth, barHeight);
-
-            // Label
-            ctx.fillStyle = '#1e293b';
-            ctx.font = '12px Inter';
-            ctx.textAlign = 'right';
-            ctx.fillText(category.length > 20 ? category.substring(0, 20) + '...' : category, 130, y + 20);
-
-            // Value
-            ctx.textAlign = 'left';
-            ctx.fillStyle = '#475569';
-            ctx.fillText(`${count} (${percentage}%)`, 150 + barWidth, y + 20);
-        });
-    }
-
-    function renderTopDiseases(diseaseCounts) {
-        const container = document.getElementById('topDiseasesList');
-        const sorted = Object.entries(diseaseCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
-
-        if (sorted.length === 0) {
-            container.innerHTML = `
-                <div class="empty">
-                    <div class="empty-icon">📈</div>
-                    <h4>No data available</h4>
-                    <p>Visit records will appear here</p>
+            rpEl.innerHTML = Object.entries(progetti).map(([nome, v]) => {
+                const sal = v.ent - v.usc;
+                return `<div class="prog-row">
+                    <div>
+                        <span class="prog-name">${ICONE[nome]||'📁'} ${nome}</span>
+                        <div style="font-size:.74rem;margin-top:3px">
+                            <span style="color:var(--g500);font-weight:600">+KSh ${v.ent.toLocaleString()}</span>
+                            &nbsp;·&nbsp;
+                            <span style="color:var(--red);font-weight:600">-KSh ${v.usc.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <span class="prog-saldo" style="color:${sal>=0?'var(--g500)':'var(--red)'}">${sal>=0?'+':'-'}KSh ${Math.abs(sal).toLocaleString()}</span>
                 </div>`;
-            return;
+            }).join('');
         }
+        renderLista();
+    }
 
-        const maxCount = sorted[0][1];
-        const total = Object.values(diseaseCounts).reduce((a, b) => a + b, 0);
-
-        container.innerHTML = sorted.map(([disease, count], i) => {
-            const percentage = ((count / total) * 100).toFixed(1);
-            const width = (count / maxCount) * 100;
-            const colors = ['#ef4444', '#f59e0b', '#10b981', '#3a9bd5', '#8b5cf6', '#ec4899', '#6366f1', '#14b8a6', '#f97316', '#64748b'];
-
+    function renderLista() {
+        const box = document.getElementById('elenco');
+        const filtrati = filtroAttivo ? dati.filter(t => t.progetto === filtroAttivo) : dati;
+        if (!filtrati.length) {
+            box.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>No transactions found.</div>'; return;
+        }
+        box.innerHTML = filtrati.map(t => {
+            const isInc = t.tipo === 'Income';
             return `
-            <div style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.9rem;">
-                    <span style="font-weight: 600; color: var(--gray-900);">${i + 1}. ${disease}</span>
-                    <span style="color: var(--gray-500);">${count} cases (${percentage}%)</span>
+            <div class="item ${isInc?'ent':'usc'}">
+                <div style="flex:1;min-width:0">
+                    <div class="item-title">${ICONE[t.progetto]||'📁'} ${t.progetto}<span class="badge ${isInc?'ent-b':'usc-b'}">${t.tipo}</span></div>
+                    <div class="item-desc">📅 ${t.data} &nbsp;·&nbsp; ${t.descrizione}</div>
+                    <div class="meta-info">👤 ${t.autore||'Admin'} &nbsp;·&nbsp; ${new Date(t.timestamp).toLocaleString('it-IT')}</div>
                 </div>
-                <div style="background: var(--gray-100); border-radius: var(--radius-full); height: 8px; overflow: hidden;">
-                    <div style="background: ${colors[i]}; width: ${width}%; height: 100%; border-radius: var(--radius-full); transition: width 0.5s ease;"></div>
+                <div class="item-right">
+                    <span class="item-amount" style="color:${isInc?'var(--g500)':'var(--red)'}">${isInc?'+':'-'} KSh ${t.importo.toLocaleString()}</span>
+                    <button class="btn-del" onclick="elimina(${t.id})">🗑️ Delete</button>
                 </div>
             </div>`;
         }).join('');
     }
 
-    function renderLocationDiseaseStats(visite) {
-        const container = document.getElementById('locationDiseaseStats');
-        const locations = ['Morijo', 'Angata', 'Marti', 'Ngorika'];
-
-        const locationData = locations.map(loc => {
-            const locVisits = visite.filter(v => v.location === loc);
-            const diseaseCounts = {};
-            locVisits.forEach(v => {
-                if (v.disease) diseaseCounts[v.disease] = (diseaseCounts[v.disease] || 0) + 1;
-            });
-            const topDiseases = Object.entries(diseaseCounts)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 3);
-            return { location: loc, total: locVisits.length, topDiseases };
-        }).filter(l => l.total > 0);
-
-        if (locationData.length === 0) {
-            container.innerHTML = `
-                <div class="empty">
-                    <div class="empty-icon">🗺️</div>
-                    <h4>No location data</h4>
-                    <p>Location-based statistics will appear here</p>
-                </div>`;
-            return;
-        }
-
-        container.innerHTML = locationData.map(loc => `
-            <div style="margin-bottom: 16px; padding: 16px; background: var(--gray-50); border-radius: var(--radius); border-left: 4px solid var(--primary-500);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="font-weight: 700; color: var(--primary-700); font-size: 1.1rem;">${loc.location}</span>
-                    <span class="badge badge-primary">${loc.total} total cases</span>
-                </div>
-                <div style="font-size: 0.85rem; color: var(--gray-600);">
-                    ${loc.topDiseases.length > 0 ? 
-                        '<strong>Top diseases:</strong><br>' + 
-                        loc.topDiseases.map(([d, c]) => `• ${d}: ${c} cases`).join('<br>') 
-                        : 'No specific disease data'}
-                </div>
-            </div>
-        `).join('');
+    function messaggio(txt, tipo) {
+        const m = document.getElementById('msg');
+        m.textContent = txt; m.className = 'alert ' + tipo;
+        setTimeout(() => m.className = 'alert', 4500);
     }
-
-    function drawMonthlyTrend(visite) {
-        const canvas = document.getElementById('trendCanvas');
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        const container = canvas.parentElement;
-        canvas.width = container.offsetWidth;
-        canvas.height = container.offsetHeight;
-
-        // Group by month
-        const monthlyData = {};
-        const months = [];
-        for (let i = 5; i >= 0; i--) {
-            const d = new Date();
-            d.setMonth(d.getMonth() - i);
-            const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-            const label = d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
-            monthlyData[key] = 0;
-            months.push({ key, label });
-        }
-
-        visite.forEach(v => {
-            if (v.data) {
-                const key = v.data.substring(0, 7);
-                if (monthlyData.hasOwnProperty(key)) {
-                    monthlyData[key]++;
-                }
-            }
-        });
-
-        const values = months.map(m => monthlyData[m.key]);
-        const maxValue = Math.max(...values, 1);
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        if (values.every(v => v === 0)) {
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '14px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText('No monthly data available', canvas.width / 2, canvas.height / 2);
-            return;
-        }
-
-        // Draw line chart
-        const padding = 40;
-        const chartWidth = canvas.width - padding * 2;
-        const chartHeight = canvas.height - padding * 2;
-        const stepX = chartWidth / (months.length - 1);
-
-        // Draw grid lines
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1;
-        for (let i = 0; i <= 4; i++) {
-            const y = padding + (chartHeight / 4) * i;
-            ctx.beginPath();
-            ctx.moveTo(padding, y);
-            ctx.lineTo(canvas.width - padding, y);
-            ctx.stroke();
-        }
-
-        // Draw line
-        ctx.strokeStyle = '#3a9bd5';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-
-        const points = values.map((val, i) => ({
-            x: padding + i * stepX,
-            y: padding + chartHeight - (val / maxValue) * chartHeight
-        }));
-
-        ctx.moveTo(points[0].x, points[0].y);
-        points.forEach(p => ctx.lineTo(p.x, p.y));
-        ctx.stroke();
-
-        // Draw points
-        points.forEach((p, i) => {
-            ctx.fillStyle = '#3a9bd5';
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Draw value
-            ctx.fillStyle = '#1e293b';
-            ctx.font = '11px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText(values[i], p.x, p.y - 10);
-
-            // Draw label
-            ctx.fillStyle = '#64748b';
-            ctx.fillText(months[i].label, p.x, canvas.height - 10);
-        });
+    function mostraLoading(msg) { document.getElementById('loadingMsg').textContent = msg||'Caricamento...'; document.getElementById('loading').classList.add('active'); }
+    function nascondiLoading() { document.getElementById('loading').classList.remove('active'); }
+    function setOnline(ok) {
+        document.getElementById('syncDot').className = 'sync-dot' + (ok ? '' : ' off');
+        document.getElementById('syncStatus').innerHTML = `<span class="sync-dot${ok?'':' off'}"></span>${ok?'online':'offline'}`;
     }
-
-    function populateDiseaseSelect(diseases) {
-        const select = document.getElementById('diseaseAnalysisSelect');
-        if (!select) return;
-
-        const sorted = diseases.sort();
-        select.innerHTML = '<option value="">Choose a disease...</option>' + 
-            sorted.map(d => `<option value="${d}">${d}</option>`).join('');
-    }
-
-    function analyzeDisease(disease) {
-        const resultDiv = document.getElementById('diseaseAnalysisResult');
-        if (!disease) {
-            resultDiv.style.display = 'none';
-            return;
-        }
-
-        const visite = getVisite().filter(v => v.disease === disease);
-
-        if (visite.length === 0) {
-            resultDiv.style.display = 'none';
-            return;
-        }
-
-        resultDiv.style.display = 'block';
-
-        // Total cases
-        document.getElementById('analysisTotalCases').textContent = visite.length;
-
-        // Unique locations
-        const locations = [...new Set(visite.map(v => v.location).filter(Boolean))];
-        document.getElementById('analysisLocations').textContent = locations.length;
-
-        // First and last case
-        const sorted = visite.sort((a, b) => new Date(a.data) - new Date(b.data));
-        document.getElementById('analysisFirstCase').textContent = new Date(sorted[0].data).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-        document.getElementById('analysisLastCase').textContent = new Date(sorted[sorted.length - 1].data).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-
-        // Location breakdown
-        const locCounts = {};
-        visite.forEach(v => {
-            locCounts[v.location || 'Unknown'] = (locCounts[v.location || 'Unknown'] || 0) + 1;
-        });
-
-        document.getElementById('diseaseLocationBreakdown').innerHTML = `
-            <h4 style="margin: 16px 0 8px; font-size: 0.9rem; color: var(--gray-700);">Cases by Location:</h4>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px;">
-                ${Object.entries(locCounts).map(([loc, count]) => `
-                    <div style="background: var(--primary-50); padding: 8px 12px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 600; color: var(--primary-700);">${loc}</span>
-                        <span class="badge badge-primary">${count}</span>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    // Update switchTab to include statistics
-    const originalSwitchTab = switchTab;
-    switchTab = function(tab) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-
-        document.getElementById(tab).classList.add('active');
-        event.currentTarget.classList.add('active');
-
-        if (tab === 'visits') aggiornaPazientiSelects();
-        if (tab === 'births') aggiornaMadriSelects();
-        if (tab === 'deaths') aggiornaPazientiDeathSelects();
-        if (tab === 'statistics') aggiornaStatistiche();
-
-        window.scrollTo(0, 0);
-    };
-
-    // Update updateAllUI to refresh charts on window resize
-    window.addEventListener('resize', () => {
-        if (document.getElementById('statistics').classList.contains('active')) {
-            aggiornaStatistiche();
-        }
-    });
-
 </script>
 </body>
 </html>
