@@ -898,7 +898,7 @@
             
             <div class="login-footer">
                 <p>🔒 Secure Medical System v2.0</p>
-                <p style="margin-top:4px; font-size:0.75rem; color:var(--gray-300);">Use: admin / password123</p>
+                <p style="margin-top:4px; font-size:0.75rem; color:var(--gray-300);">Use: admin</p>
             </div>
         </div>
     </div>
@@ -1613,9 +1613,10 @@
 
 <script>
     // ===== JSONBIN.IO CONFIGURATION =====
-    const JSONBIN_BIN_ID   = '69c8f0846860e0745bff6903';
+    const JSONBIN_BIN_ID     = '69c8f0846860e0745bff6903';
     const JSONBIN_MASTER_KEY = '$2a$10$Z2lQjwDW.9ncUrm8gnE75uG9HdkCoNVsgmitFJCo2/3MAvSoMl8Pu';
-    const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3/b';
+    const JSONBIN_ACCESS_KEY = '$2a$10$5oSWq5Sk/kqlJADg.bRFFe6CNxrSOpxiJN00PmUWDnB1bouxHJswa';
+    const JSONBIN_BASE_URL   = 'https://api.jsonbin.io/v3/b';
     const LS_DATA_KEY = 'morijo_data'; // local cache
 
     const VALID_USER = 'admin';
@@ -1657,6 +1658,7 @@
                 method: 'GET',
                 headers: {
                     'X-Master-Key': JSONBIN_MASTER_KEY,
+                    'X-Access-Key': JSONBIN_ACCESS_KEY,
                     'X-Bin-Meta': 'false'
                 }
             });
@@ -1693,27 +1695,63 @@
         saveLocalCache(allData);
 
         try {
+            console.log('[JSONBin] Saving to bin:', JSONBIN_BIN_ID);
             const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Master-Key': JSONBIN_MASTER_KEY
+                    'X-Master-Key': JSONBIN_MASTER_KEY,
+                    'X-Access-Key': JSONBIN_ACCESS_KEY
                 },
                 body: JSON.stringify(allData)
             });
+
+            const responseText = await response.text();
+            console.log('[JSONBin] Save response status:', response.status);
+            console.log('[JSONBin] Save response body:', responseText);
 
             if (response.ok) {
                 updateSyncStatus(true);
                 showSyncIndicator('synced', 'Saved!');
                 return true;
+            } else {
+                console.error('[JSONBin] Save FAILED:', response.status, responseText);
+                showSyncIndicator('error', 'Error ' + response.status);
             }
         } catch (e) {
-            console.log('Save error:', e);
-            showSyncIndicator('error', 'Saved locally');
+            console.error('[JSONBin] Save EXCEPTION:', e);
+            showSyncIndicator('error', 'Network error');
         }
 
         updateSyncStatus(false);
         return false;
+    }
+
+    async function testJsonBinConnection() {
+        console.log('[JSONBin] Testing connection...');
+        console.log('[JSONBin] BIN ID:', JSONBIN_BIN_ID);
+        console.log('[JSONBin] KEY starts with:', JSONBIN_MASTER_KEY.substring(0, 10) + '...');
+        try {
+            const response = await fetch(`${JSONBIN_BASE_URL}/${JSONBIN_BIN_ID}`, {
+                method: 'GET',
+                headers: {
+                    'X-Master-Key': JSONBIN_MASTER_KEY,
+                    'X-Access-Key': JSONBIN_ACCESS_KEY,
+                    'X-Bin-Meta': 'false'
+                }
+            });
+            const body = await response.text();
+            console.log('[JSONBin] GET status:', response.status);
+            console.log('[JSONBin] GET body:', body.substring(0, 200));
+            if (response.ok) {
+                msg('✅ JSONBin connected! Bin ID OK.', 'success');
+            } else {
+                msg('❌ JSONBin error: ' + response.status + ' - check console (F12)', 'err');
+            }
+        } catch(e) {
+            console.error('[JSONBin] Connection test FAILED:', e);
+            msg('❌ Network error - check console (F12)', 'err');
+        }
     }
 
     function updateSyncStatus(synced) {
@@ -2249,6 +2287,7 @@
             document.getElementById('mainContent').classList.add('active');
             document.querySelector('.nav-container').style.display = 'block';
 
+            testJsonBinConnection();
             loadDataFromJsonBin();
             startRealtimeSync();
 
