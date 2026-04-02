@@ -861,7 +861,41 @@
             border-radius: 3px;
         }
 
+        /* Checkbox Group Styles */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-600);
+        }
+        
+        .checkbox-item label {
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            text-transform: none;
+            font-weight: 500;
+            letter-spacing: 0;
+            margin: 0;
+            cursor: pointer;
+        }
+
     </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -973,8 +1007,8 @@
                             <input type="text" id="pCognome" placeholder="Doe" autocapitalize="words">
                         </div>
                         <div class="form-field">
-                            <label>Age</label>
-                            <input type="number" id="pEta" placeholder="25" min="0" max="120">
+                            <label>Age (e.g., 1 week, 2 weeks, 1½ years, 1.8 years, 1 month, 2 months, 25)</label>
+                            <input type="text" id="pEta" placeholder="25 or 1 week or 2 months or 1½ years">
                         </div>
                         <div class="form-field">
                             <label>Location <span class="required">*</span></label>
@@ -1066,7 +1100,6 @@
                                     <option value="Dengue Fever">Dengue Fever</option>
                                     <option value="Yellow Fever">Yellow Fever</option>
                                     <option value="Meningitis">Meningitis</option>
-                                    <option value="Pneumonia">Pneumonia</option>
                                     <option value="COVID-19">COVID-19</option>
                                     <option value="Influenza">Influenza</option>
                                     <option value="Chickenpox">Chickenpox</option>
@@ -1078,12 +1111,36 @@
                                     <option value="Leprosy">Leprosy</option>
                                     <option value="Schistosomiasis">Schistosomiasis</option>
                                     <option value="Intestinal Worms">Intestinal Worms</option>
-                                    <option value="Diarrheal Disease">Diarrheal Disease</option>
-                                    <option value="Upper Respiratory Infection">Upper Respiratory Infection</option>
                                     <option value="Skin Infection">Skin Infection</option>
                                     <option value="Eye Infection">Eye Infection</option>
                                     <option value="Ear Infection">Ear Infection</option>
-                                    <option value="Urinary Tract Infection">Urinary Tract Infection</option>
+                                </optgroup>
+                                <optgroup label="🫁 Pneumonia Types">
+                                    <option value="Pneumonia - Community Acquired (CAP)">Community Acquired Pneumonia (CAP)</option>
+                                    <option value="Pneumonia - Hospital Acquired">Hospital Acquired Pneumonia</option>
+                                    <option value="Pneumonia - Acute">Acute Pneumonia</option>
+                                    <option value="Pneumonia - Moderate">Moderate Pneumonia</option>
+                                    <option value="Pneumonia - Severe">Severe Pneumonia</option>
+                                </optgroup>
+                                <optgroup label="🚽 Urinary Tract Infection Types">
+                                    <option value="UTI - Acute">Acute UTI</option>
+                                    <option value="UTI - Chronic">Chronic UTI</option>
+                                </optgroup>
+                                <optgroup label="💩 Diarrhea Types">
+                                    <option value="Diarrhea - Acute">Acute Diarrhea</option>
+                                    <option value="Diarrhea - Chronic">Chronic Diarrhea</option>
+                                </optgroup>
+                                <optgroup label="👃 Upper Respiratory Tract Infection (URTI) Types">
+                                    <option value="URTI - Acute">Acute URTI</option>
+                                    <option value="URTI - Chronic">Chronic URTI</option>
+                                </optgroup>
+                                <optgroup label="💉 Immunization Schedule">
+                                    <option value="Immunization - Birth Doses">Birth Doses</option>
+                                    <option value="Immunization - 6 Weeks">6 Weeks Injections/Doses</option>
+                                    <option value="Immunization - 10 Weeks">10 Weeks Injections/Doses</option>
+                                    <option value="Immunization - 14 Weeks">14 Weeks Injections/Doses</option>
+                                    <option value="Immunization - 9 Months">9 Months Injections/Doses</option>
+                                    <option value="Immunization - 1.5 Years">1 1/2 Year Injections/Doses</option>
                                 </optgroup>
                                 <optgroup label="🟠 Maternal & Neonatal">
                                     <option value="Pregnancy - Normal">Pregnancy - Normal</option>
@@ -1251,7 +1308,6 @@
                                     <option value="Failure to Thrive">Failure to Thrive</option>
                                     <option value="Well Child Visit">Well Child Visit</option>
                                     <option value="Family Planning">Family Planning</option>
-                                    <option value="Immunization">Immunization</option>
                                     <option value="Health Education">Health Education</option>
                                     <option value="Other - Specify in Notes">Other - Specify in Notes</option>
                                 </optgroup>
@@ -1324,9 +1380,60 @@
                             <label>APGAR Score</label>
                             <input type="number" id="mApgar" placeholder="9" min="0" max="10">
                         </div>
+                        
+                        <!-- Mother Treatment Section -->
                         <div class="form-field full-width">
-                            <label>Delivery Complications / Notes</label>
-                            <textarea id="mNote" placeholder="Any complications during delivery..."></textarea>
+                            <label>Mother Treatment / Interventions</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mMotherPartograph" value="Labour monitoring using partograph">
+                                    <label for="mMotherPartograph">Labour monitoring using a partograph</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mMotherOxytocin" value="IM oxytocin 10 I.U">
+                                    <label for="mMotherOxytocin">IM oxytocin 10 I.U</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mMotherIVFluids" value="Intravenous fluids for exhaustion/dehydration">
+                                    <label for="mMotherIVFluids">Intravenous fluids in case of maternal exhaustion and dehydration</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mMotherTranexamic" value="IV Tranexamic acid for bleeding">
+                                    <label for="mMotherTranexamic">IV Tranexamic acid in cases of bleeding</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mMotherOther" value="Other intervention">
+                                    <label for="mMotherOther">Any other intervention done (specify in notes)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Newborn Treatment Section -->
+                        <div class="form-field full-width">
+                            <label>Newborn Care / Interventions</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mNewbornWeight" value="Weight measured for LBW screening">
+                                    <label for="mNewbornWeight">Weight to rule out low birth weight</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mNewbornTetracycline" value="Tetracycline eye ointment prophylaxis">
+                                    <label for="mNewbornTetracycline">Tetracycline eye ointment (prophylaxis) to prevent neonatal ophthalmia neonatorum</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mNewbornVitaminK" value="Vitamin K injection">
+                                    <label for="mNewbornVitaminK">Vitamin K injection to prevent hemorrhagic disease of the newborn</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mNewbornResuscitation" value="Resuscitation performed">
+                                    <label for="mNewbornResuscitation">Resuscitation in case the neonate fails to initiate breathing</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field full-width">
+                            <label>Delivery Complications / Additional Notes</label>
+                            <textarea id="mNote" placeholder="Any complications during delivery, other interventions, or specify other treatments here..."></textarea>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -1379,6 +1486,8 @@
                             <label>Cause of Death <span class="required">*</span></label>
                             <select id="dCausa" class="disease-select">
                                 <option value="">Select cause of death...</option>
+                                <option value="Not applicable">Not applicable</option>
+                                <option value="Zero deaths">Zero deaths</option>
                                 <optgroup label="🔴 Communicable Diseases">
                                     <option value="Malaria">Malaria</option>
                                     <option value="HIV/AIDS related">HIV/AIDS related</option>
@@ -1968,7 +2077,7 @@
                         <span class="badge badge-primary">${p.location || 'Unknown'}</span>
                     </div>
                     <div class="list-meta">
-                        Age: ${p.eta || 'N/A'} years
+                        Age: ${p.eta || 'N/A'}
                         ${p.note ? '• ' + p.note.substring(0, 50) + (p.note.length > 50 ? '...' : '') : ''}
                     </div>
                 </div>
@@ -2036,6 +2145,14 @@
         container.innerHTML = nascite.slice().reverse().map(n => {
             const madre = pazienti.find(p => p.id === n.madreId);
             const nomeMadre = madre ? `${madre.cognome} ${madre.nome}` : 'Unknown';
+            
+            let treatments = '';
+            if (n.motherTreatments && n.motherTreatments.length > 0) {
+                treatments += `<br><strong>Mother:</strong> ${n.motherTreatments.join(', ')}`;
+            }
+            if (n.newbornTreatments && n.newbornTreatments.length > 0) {
+                treatments += `<br><strong>Newborn:</strong> ${n.newbornTreatments.join(', ')}`;
+            }
 
             return `
             <div class="list-item green">
@@ -2048,6 +2165,7 @@
                         Mother: ${nomeMadre} • ${new Date(n.data).toLocaleDateString()}
                         ${n.peso ? `• Weight: ${n.peso}kg` : ''}
                         ${n.apgar ? `• APGAR: ${n.apgar}` : ''}
+                        ${treatments}
                         ${n.note ? '<br>' + n.note.substring(0, 80) + (n.note.length > 80 ? '...' : '') : ''}
                     </div>
                 </div>
@@ -2099,7 +2217,7 @@
     function salvaPaziente() {
         const nome = document.getElementById('pNome').value.trim();
         const cognome = document.getElementById('pCognome').value.trim();
-        const eta = document.getElementById('pEta').value;
+        const eta = document.getElementById('pEta').value.trim();
         const location = document.getElementById('pLocation').value;
         const note = document.getElementById('pNote').value.trim();
 
@@ -2207,6 +2325,21 @@
         const madre = getPazienti().find(p => p.id === madreId);
         const madreNome = madre ? `${madre.cognome} ${madre.nome}` : 'Unknown';
 
+        // Collect mother treatments
+        const motherTreatments = [];
+        if (document.getElementById('mMotherPartograph').checked) motherTreatments.push('Partograph monitoring');
+        if (document.getElementById('mMotherOxytocin').checked) motherTreatments.push('IM Oxytocin 10 I.U');
+        if (document.getElementById('mMotherIVFluids').checked) motherTreatments.push('IV Fluids');
+        if (document.getElementById('mMotherTranexamic').checked) motherTreatments.push('IV Tranexamic acid');
+        if (document.getElementById('mMotherOther').checked) motherTreatments.push('Other intervention');
+
+        // Collect newborn treatments
+        const newbornTreatments = [];
+        if (document.getElementById('mNewbornWeight').checked) newbornTreatments.push('Weight measured');
+        if (document.getElementById('mNewbornTetracycline').checked) newbornTreatments.push('Tetracycline eye ointment');
+        if (document.getElementById('mNewbornVitaminK').checked) newbornTreatments.push('Vitamin K injection');
+        if (document.getElementById('mNewbornResuscitation').checked) newbornTreatments.push('Resuscitation');
+
         const nascita = {
             id: Date.now().toString(),
             data,
@@ -2217,6 +2350,8 @@
             peso: peso || null,
             apgar: apgar || null,
             note,
+            motherTreatments,
+            newbornTreatments,
             timestamp: new Date().toISOString()
         };
 
@@ -2229,6 +2364,17 @@
         document.getElementById('mPeso').value = '';
         document.getElementById('mApgar').value = '';
         document.getElementById('mNote').value = '';
+        
+        // Reset checkboxes
+        document.getElementById('mMotherPartograph').checked = false;
+        document.getElementById('mMotherOxytocin').checked = false;
+        document.getElementById('mMotherIVFluids').checked = false;
+        document.getElementById('mMotherTranexamic').checked = false;
+        document.getElementById('mMotherOther').checked = false;
+        document.getElementById('mNewbornWeight').checked = false;
+        document.getElementById('mNewbornTetracycline').checked = false;
+        document.getElementById('mNewbornVitaminK').checked = false;
+        document.getElementById('mNewbornResuscitation').checked = false;
 
         renderListaNascite();
         aggiornaDashboard();
@@ -2349,7 +2495,12 @@
     // ===== DISEASE STATISTICS FUNCTIONS =====
 
     const diseaseCategories = {
-        'Infectious & Parasitic Diseases': ['Malaria', 'Typhoid Fever', 'Cholera', 'Tuberculosis (TB)', 'HIV/AIDS', 'Measles', 'Hepatitis A', 'Hepatitis B', 'Hepatitis C', 'Dengue Fever', 'Yellow Fever', 'Meningitis', 'Pneumonia', 'COVID-19', 'Influenza', 'Chickenpox', 'Tetanus', 'Whooping Cough', 'Diphtheria', 'Polio', 'Rabies', 'Leprosy', 'Schistosomiasis', 'Intestinal Worms', 'Diarrheal Disease', 'Upper Respiratory Infection', 'Skin Infection', 'Eye Infection', 'Ear Infection', 'Urinary Tract Infection'],
+        'Infectious & Parasitic Diseases': ['Malaria', 'Typhoid Fever', 'Cholera', 'Tuberculosis (TB)', 'HIV/AIDS', 'Measles', 'Hepatitis A', 'Hepatitis B', 'Hepatitis C', 'Dengue Fever', 'Yellow Fever', 'Meningitis', 'COVID-19', 'Influenza', 'Chickenpox', 'Tetanus', 'Whooping Cough', 'Diphtheria', 'Polio', 'Rabies', 'Leprosy', 'Schistosomiasis', 'Intestinal Worms', 'Skin Infection', 'Eye Infection', 'Ear Infection'],
+        'Pneumonia Types': ['Pneumonia - Community Acquired (CAP)', 'Pneumonia - Hospital Acquired', 'Pneumonia - Acute', 'Pneumonia - Moderate', 'Pneumonia - Severe'],
+        'Urinary Tract Infection Types': ['UTI - Acute', 'UTI - Chronic'],
+        'Diarrhea Types': ['Diarrhea - Acute', 'Diarrhea - Chronic'],
+        'Upper Respiratory Tract Infection (URTI) Types': ['URTI - Acute', 'URTI - Chronic'],
+        'Immunization Schedule': ['Immunization - Birth Doses', 'Immunization - 6 Weeks', 'Immunization - 10 Weeks', 'Immunization - 14 Weeks', 'Immunization - 9 Months', 'Immunization - 1.5 Years'],
         'Maternal & Neonatal': ['Pregnancy - Normal', 'Pregnancy - High Risk', 'Anemia in Pregnancy', 'Preeclampsia', 'Eclampsia', 'Postpartum Hemorrhage', 'Preterm Labor', 'Obstructed Labor', 'Newborn Jaundice', 'Low Birth Weight', 'Neonatal Sepsis', 'Birth Asphyxia', 'Congenital Abnormalities'],
         'Nutritional & Metabolic': ['Severe Acute Malnutrition', 'Moderate Acute Malnutrition', 'Vitamin A Deficiency', 'Iron Deficiency Anemia', 'Iodine Deficiency', 'Rickets', 'Scurvy', 'Diabetes Type 1', 'Diabetes Type 2', 'Diabetes - Gestational', 'Hypoglycemia', 'Hyperglycemia', 'Dehydration', 'Electrolyte Imbalance'],
         'Cardiovascular': ['Hypertension', 'Hypertensive Heart Disease', 'Heart Failure', 'Rheumatic Heart Disease', 'Ischemic Heart Disease', 'Arrhythmia', 'Stroke', 'Deep Vein Thrombosis', 'Anemia - General', 'Sickle Cell Disease'],
@@ -2361,7 +2512,7 @@
         'Skin & Eye': ['Eczema', 'Dermatitis', 'Scabies', 'Tinea (Ringworm)', 'Impetigo', 'Cellulitis', 'Abscess', 'Burns', 'Conjunctivitis', 'Cataract', 'Trachoma', 'Glaucoma', 'Dental Caries', 'Gingivitis'],
         'Cancers & Tumors': ['Cervical Cancer', 'Breast Cancer', 'Prostate Cancer', 'Kaposi Sarcoma', 'Lymphoma', 'Leukemia', 'Liver Cancer', 'Colorectal Cancer', 'Lung Cancer', 'Skin Cancer', 'Unspecified Mass/Tumor'],
         'Injuries & Trauma': ['Road Traffic Accident', 'Fall Injury', 'Cut/Wound', 'Animal Bite', 'Snake Bite', 'Insect Bite', 'Burn - Thermal', 'Burn - Chemical', 'Drowning/Near Drowning', 'Poisoning', 'Foreign Body', 'Head Injury', 'Spinal Injury', 'Chest Injury', 'Abdominal Injury'],
-        'Other/General': ['Fever - Unspecified', 'Pain - Unspecified', 'Cough', 'Dyspnea', 'Edema', 'Weight Loss', 'Failure to Thrive', 'Well Child Visit', 'Family Planning', 'Immunization', 'Health Education', 'Other - Specify in Notes']
+        'Other/General': ['Fever - Unspecified', 'Pain - Unspecified', 'Cough', 'Dyspnea', 'Edema', 'Weight Loss', 'Failure to Thrive', 'Well Child Visit', 'Family Planning', 'Health Education', 'Other - Specify in Notes']
     };
 
     function getDiseaseCategory(disease) {
